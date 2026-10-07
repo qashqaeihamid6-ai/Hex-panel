@@ -1,0 +1,18 @@
+name = "hex-panel"
+main = "worker-fixed.js"
+compatibility_date = "2026-01-01"
+workers_dev = true
+
+# Create the namespace first:
+# wrangler kv namespace create WD_KV
+[[kv_namespaces]]
+binding = "WD_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+[vars]
+# Optional. Uncomment and customize when needed.
+# PROXY_PORTS = "443,8443"
+
+# If you add an assets directory later, uncomment this block and update the path.
+# [assets]
+# directory = "./public"

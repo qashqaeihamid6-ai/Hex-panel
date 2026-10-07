@@ -1,0 +1,19 @@
+{
+  "name": "hex-panel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker control panel for proxy subscriptions, DNS routing, and node management.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "node --check worker-fixed.js",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}
