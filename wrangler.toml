@@ -1,5 +1,5 @@
 name = "hex-panel"
-main = "worker.js"
+main = "worker-hex.js"
 compatibility_date = "2026-01-01"
 workers_dev = true
 
