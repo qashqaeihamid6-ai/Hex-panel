@@ -80,7 +80,7 @@ async function queryDnsJson(url, name, type, fetchImpl = fetch) {
 }
 
 // lib/client-dns.mjs
-var DNS_DEFAULTS = Object.freeze({ mode: "real", resolver: "panel", route: "direct", bootstrap: "1.1.1.1", ipv6: false, tun: false, blockQuic: false, exclusions: "localhost\nlan\nlocal", domains: "", domainResolver: "https://1.1.1.1/dns-query", forceProxy: "", gatewayFallbacks: "" });
+var DNS_DEFAULTS = Object.freeze({ mode: "real", resolver: "https://1.1.1.1/dns-query", route: "direct", bootstrap: "1.1.1.1", ipv6: false, tun: false, blockQuic: true, exclusions: "localhost\nlan\nlocal", domains: "", domainResolver: "https://1.1.1.1/dns-query", forceProxy: "youtube.com\nyoutu.be\nytimg.com\ngooglevideo.com\nyoutubei.googleapis.com\nx.com\ntwitter.com\ntwimg.com", gatewayFallbacks: "https://1.0.0.1/dns-query\nhttps://8.8.8.8/dns-query" });
 var domainList = (value) => [...new Set(String(value).split(/[\s,]+/).filter(Boolean).map((v) => v.toLowerCase().replace(/^\*?\./, "")))];
 var isIP = (value) => /^(\d{1,3}\.){3}\d{1,3}$/.test(value) ? value.split(".").every((n) => +n <= 255) : value.includes(":") && (() => {
   try {
@@ -2131,7 +2131,7 @@ function renderLoginPage(options) {
           ${MASCOT_SVG}
         </div>
         <h1 class="mc-logo">HEX<span class="mc-splash">Now with D1!</span></h1>
-        <p style="color: var(--theme-text-muted); font-size: 13px;">Welcome to HEX â€” Enter your access key \u{1F338}</p>
+        <p style="color: var(--theme-text-muted); font-size: 13px;">Welcome to HEX Ã¢â‚¬â€ Enter your access key \u{1F338}</p>
         
         <div style="display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; justify-content: center;">
           <span class="badge badge-sky">\u2728 v${APP_CONFIG.version} HEX Nebula</span>
@@ -2170,7 +2170,7 @@ function renderLoginPage(options) {
       ${defaultHint}
 
       <div style="margin-top: 22px; text-align: center; font-size: 11.5px; color: var(--theme-text-muted);">
-        HEX Panel &bull; Encrypted DNS &amp; Proxy Dashboard
+        copy right by Hamid &bull; HEX Panel &bull; Encrypted DNS &amp; Proxy Dashboard
         <div style="margin-top: 8px;">
           <a href="${APP_CONFIG.telegramChannel}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--theme-primary);">
             <span>\u{1F4E2}</span><span>@HEX_Net on Telegram</span>
@@ -2533,6 +2533,7 @@ function renderDashboardPage(options) {
           </div>
           <div>
             <h1 id="page-heading" style="font-size: 16.5px; margin-bottom: 2px;">System Dashboard</h1>
+            <div style="font-size:11px;color:var(--theme-text-muted);">copy right by Hamid</div>
             <p id="page-subheading" style="color: var(--theme-text-muted); font-size: 12px; font-weight: 600;">Pastel proxy command center &amp; live tunnel stats</p>
           </div>
         </div>
@@ -3434,65 +3435,25 @@ function renderDashboardPage(options) {
 
       </section>
 
-      <!-- ====================================================================
-           TAB 8: USERS (add user + list, separate from Settings)
-           ==================================================================== -->
+      <!-- TAB 8: USERS -->
       <section id="tab-users" class="tab-pane ${initialTab === "users" ? "active" : ""}">
-
         <div class="card" style="margin-bottom:16px;">
-          <div class="card-title">
-            <span>&#x2795;</span>
-            <span>&#x627;&#x641;&#x632;&#x648;&#x62F;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x62C;&#x62F;&#x6CC;&#x62F;</span>
-          </div>
-          <p class="card-desc">&#x628;&#x631;&#x627;&#x6CC; &#x647;&#x631; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x6CC;&#x6A9; UUID &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC; &#x648; &#x6CC;&#x6A9; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x62C;&#x62F;&#x627; &#x633;&#x627;&#x62E;&#x62A;&#x647; &#x645;&#x6CC;&#x200C;&#x634;&#x648;&#x62F;. &#x628;&#x627; &#x62D;&#x630;&#x641; &#x6A9;&#x627;&#x631;&#x628;&#x631;&#x60C; UUID &#x648; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x648; &#x627;&#x632; &#x6A9;&#x627;&#x631; &#x645;&#x6CC;&#x200C;&#x627;&#x641;&#x62A;&#x62F;.</p>
+          <div class="card-title"><span>&#x2795;</span><span>Add new user</span></div>
+          <p class="card-desc">Each user gets a dedicated UUID and subscription link. User names are wrapped with ðŸ¦–ðŸŒµ automatically.</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <input id="hexUserName" class="form-control" placeholder="&#x646;&#x627;&#x645; &#x6A9;&#x627;&#x631;&#x628;&#x631; (&#x645;&#x62B;&#x644;&#x627;&#x64B; Alireza)" style="flex:2; min-width:180px;" />
-            <select id="hexUserFlag" class="form-control" style="flex:1; min-width:150px;">
-              <option value="de">&#x1F1E9;&#x1F1EA; Germany (DE)</option>
-              <option value="us">&#x1F1FA;&#x1F1F8; United States (US)</option>
-              <option value="ir" selected>&#x1F1EE;&#x1F1F7; Iran (IR)</option>
-              <option value="tr">&#x1F1F9;&#x1F1F7; Turkey (TR)</option>
-              <option value="nl">&#x1F1F3;&#x1F1F1; Netherlands (NL)</option>
-              <option value="gb">&#x1F1EC;&#x1F1E7; United Kingdom (GB)</option>
-              <option value="fr">&#x1F1EB;&#x1F1F7; France (FR)</option>
-              <option value="ca">&#x1F1E8;&#x1F1E6; Canada (CA)</option>
-              <option value="ae">&#x1F1E6;&#x1F1EA; UAE (AE)</option>
-              <option value="sg">&#x1F1F8;&#x1F1EC; Singapore (SG)</option>
-              <option value="jp">&#x1F1EF;&#x1F1F5; Japan (JP)</option>
-              <option value="se">&#x1F1F8;&#x1F1EA; Sweden (SE)</option>
-              <option value="ru">&#x1F1F7;&#x1F1FA; Russia (RU)</option>
-            </select>
-            <button type="button" class="btn btn-primary" onclick="hexAddUserRow()">&#x627;&#x641;&#x632;&#x648;&#x62F;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; +</button>
+            <input id="hexUserName" class="form-control" placeholder="Username (for example: Alireza)" style="flex:2; min-width:180px;" />
+
+            <button type="button" class="btn btn-primary" onclick="hexAddUserRow()">Add user +</button>
           </div>
         </div>
-
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-            <div class="card-title" style="margin-bottom:0;">
-              <span>&#x1F465;</span>
-              <span>&#x644;&#x6CC;&#x633;&#x62A; &#x6A9;&#x627;&#x631;&#x628;&#x631;&#x627;&#x646;</span>
-              <span id="hexUserCount" class="badge badge-sky" style="margin-left:6px;">0 &#x6A9;&#x627;&#x631;&#x628;&#x631;</span>
-            </div>
-            <span class="badge badge-mint">&#x630;&#x62E;&#x6CC;&#x631;&#x647;&#x200C;&#x6CC; &#x62F;&#x627;&#x626;&#x645;&#x6CC; (D1) &#xB7; &#x628;&#x62F;&#x648;&#x646; &#x627;&#x646;&#x642;&#x636;&#x627;</span>
+            <div class="card-title" style="margin-bottom:0;"><span>&#x1F465;</span><span>User list</span><span id="hexUserCount" class="badge badge-sky" style="margin-left:6px;">0 users</span></div>
+            <span class="badge badge-mint">Persistent storage (D1) Â· No expiry</span>
           </div>
-          <p class="card-desc">&#x647;&#x631; &#x6A9;&#x627;&#x631;&#x628;&#x631; UUID &#x648; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC; &#x62F;&#x627;&#x631;&#x62F; &#x648; &#x6A9;&#x627;&#x646;&#x641;&#x6CC;&#x6AF;&#x200C;&#x647;&#x627; &#x62F;&#x631; &#x6A9;&#x644;&#x627;&#x6CC;&#x646;&#x62A; &#x628;&#x627; &#x646;&#x627;&#x645; &#x648; &#x67E;&#x631;&#x686;&#x645; &#x647;&#x645;&#x627;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x646;&#x645;&#x627;&#x6CC;&#x634; &#x62F;&#x627;&#x62F;&#x647; &#x645;&#x6CC;&#x200C;&#x634;&#x648;&#x646;&#x62F;. &#xAB;&#x62A;&#x648;&#x6A9;&#x646; &#x62C;&#x62F;&#x6CC;&#x62F;&#xBB; &#x641;&#x642;&#x637; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x631;&#x627; &#x639;&#x648;&#x636; &#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F; &#x648; &#xAB;UUID &#x62C;&#x62F;&#x6CC;&#x62F;&#xBB; UUID &#x627;&#x62A;&#x635;&#x627;&#x644; &#x631;&#x627; &#x639;&#x648;&#x636; &#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F; (&#x6A9;&#x627;&#x646;&#x641;&#x6CC;&#x6AF; &#x642;&#x628;&#x644;&#x6CC; &#x6A9;&#x627;&#x631; &#x646;&#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F;).</p>
-          <div style="overflow-x:auto;">
-            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
-              <thead>
-                <tr style="border-bottom:1.5px solid var(--theme-border); color:var(--theme-text-muted); font-family:'Quicksand',sans-serif;">
-                  <th style="padding:8px 10px;">&#x646;&#x627;&#x645; + &#x67E;&#x631;&#x686;&#x645;</th>
-                  <th style="padding:8px 10px;">&#x6A9;&#x62F; &#x6A9;&#x634;&#x648;&#x631;</th>
-                  <th style="padding:8px 10px;">UUID</th>
-                  <th style="padding:8px 10px;">&#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC;</th>
-                  <th style="padding:8px 10px; text-align:right;">&#x639;&#x645;&#x644;&#x6CC;&#x627;&#x62A;</th>
-                </tr>
-              </thead>
-              <tbody id="hexUserTableBody">
-              </tbody>
-            </table>
-          </div>
+          <p class="card-desc">Every user has a UUID and a dedicated subscription link.</p>
+          <div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;"><thead><tr style="border-bottom:1.5px solid var(--theme-border); color:var(--theme-text-muted); font-family:'Quicksand',sans-serif;"><th style="padding:8px 10px;">Name</th><th style="padding:8px 10px;">Country</th><th style="padding:8px 10px;">UUID</th><th style="padding:8px 10px;">Subscription link</th><th style="padding:8px 10px; text-align:right;">Actions</th></tr></thead><tbody id="hexUserTableBody"></tbody></table></div>
         </div>
-
       </section>
 
 
@@ -3503,6 +3464,12 @@ function renderDashboardPage(options) {
 
     // HEX \u{2014} Users (persistent via D1, per-user subscription link).
     // NOTE: this code is inside a server-side template string: no backticks, dollar-brace or backslashes here.
+    var HEX_NAME_PREFIX = "ðŸ¦–ðŸŒµ";
+    function hexDecoratedName(name){
+      var clean = String(name || "").replace(/^[ðŸ¦–ðŸŒµ\s]+|[ðŸ¦–ðŸŒµ\s]+$/g, "").trim();
+      return HEX_NAME_PREFIX + (clean ? " " + clean + " " : " ") + HEX_NAME_PREFIX;
+    }
+
     var HEX_FLAGS = { de:"\u{1F1E9}\u{1F1EA}", us:"\u{1F1FA}\u{1F1F8}", ir:"\u{1F1EE}\u{1F1F7}", tr:"\u{1F1F9}\u{1F1F7}", nl:"\u{1F1F3}\u{1F1F1}", gb:"\u{1F1EC}\u{1F1E7}", fr:"\u{1F1EB}\u{1F1F7}", ca:"\u{1F1E8}\u{1F1E6}", ae:"\u{1F1E6}\u{1F1EA}", sg:"\u{1F1F8}\u{1F1EC}", jp:"\u{1F1EF}\u{1F1F5}", se:"\u{1F1F8}\u{1F1EA}", ru:"\u{1F1F7}\u{1F1FA}" };
     var HEX_FORMATS = [["xray","Xray / v2rayN / Hiddify"],["clash","Clash.Meta"],["singbox","Sing-box"],["vless","VLESS (plain)"],["trojan","Trojan (plain)"]];
     var hexUsers = [];
@@ -3512,15 +3479,15 @@ function renderDashboardPage(options) {
     function hexRenderUsers(){
       var tbody = document.getElementById("hexUserTableBody");
       var cnt = document.getElementById("hexUserCount");
-      if (cnt) cnt.textContent = hexUsers.length + " \u{6A9}\u{627}\u{631}\u{628}\u{631}";
+      if (cnt) cnt.textContent = hexUsers.length + (hexUsers.length === 1 ? " user" : " users");
       if (!tbody) return;
       tbody.innerHTML = "";
       if (!hexUsers.length) {
         var er = document.createElement("tr");
         var ec = document.createElement("td");
-        ec.colSpan = 5;
+        ec.colSpan = 4;
         ec.style.cssText = "padding:14px; text-align:center; color:var(--theme-text-muted);";
-        ec.textContent = "\u{647}\u{646}\u{648}\u{632} \u{6A9}\u{627}\u{631}\u{628}\u{631}\u{6CC} \u{627}\u{636}\u{627}\u{641}\u{647} \u{646}\u{634}\u{62F}\u{647} \u{627}\u{633}\u{62A}";
+        ec.textContent = "No users added yet";
         er.appendChild(ec);
         tbody.appendChild(er);
         return;
@@ -3534,7 +3501,7 @@ function renderDashboardPage(options) {
         fl.style.fontSize = "18px";
         fl.textContent = hexFlag(u.cc);
         var nm = document.createElement("strong");
-        nm.textContent = u.name;
+        nm.textContent = hexDecoratedName(u.name);
         td1.appendChild(fl); td1.appendChild(nm);
         var td2 = document.createElement("td");
         td2.style.cssText = "padding:10px; text-transform:uppercase; font-size:12px; color:var(--theme-text-muted);";
@@ -3550,7 +3517,7 @@ function renderDashboardPage(options) {
         ucp.type = "button";
         ucp.className = "btn btn-primary btn-sm";
         ucp.style.marginTop = "6px";
-        ucp.textContent = "\u{6A9}\u{67E}\u{6CC} UUID";
+        ucp.textContent = "Copy UUID";
         ucp.onclick = function(){ copyToClipboard(uin.value); };
         tdU.appendChild(uin); tdU.appendChild(ucp);
         var tdL = document.createElement("td");
@@ -3575,7 +3542,7 @@ function renderDashboardPage(options) {
         cp.type = "button";
         cp.className = "btn btn-primary btn-sm";
         cp.style.marginTop = "6px";
-        cp.textContent = "\u{6A9}\u{67E}\u{6CC} \u{644}\u{6CC}\u{646}\u{6A9}";
+        cp.textContent = "Copy link";
         cp.onclick = function(){ copyToClipboard(inp.value); };
         tdL.appendChild(sel); tdL.appendChild(inp); tdL.appendChild(cp);
         var td3 = document.createElement("td");
@@ -3584,21 +3551,21 @@ function renderDashboardPage(options) {
         rg.type = "button";
         rg.className = "btn btn-secondary btn-sm";
         rg.style.marginRight = "6px";
-        rg.textContent = "\u{62A}\u{648}\u{6A9}\u{646} \u{62C}\u{62F}\u{6CC}\u{62F}";
+        rg.textContent = "New token";
         rg.onclick = function(){ hexRegenUser(u.id); };
         var del = document.createElement("button");
         del.type = "button";
         del.className = "btn btn-secondary btn-sm";
-        del.textContent = "\u{62D}\u{630}\u{641}";
+        del.textContent = "Delete";
         del.onclick = function(){ hexDelUser(u.id); };
         var rgu = document.createElement("button");
         rgu.type = "button";
         rgu.className = "btn btn-secondary btn-sm";
         rgu.style.marginRight = "6px";
-        rgu.textContent = "UUID \u{62C}\u{62F}\u{6CC}\u{62F}";
+        rgu.textContent = "New UUID";
         rgu.onclick = function(){ hexRegenUuid(u.id); };
         td3.appendChild(rg); td3.appendChild(rgu); td3.appendChild(del);
-        tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(tdU); tr.appendChild(tdL); tr.appendChild(td3);
+        tr.appendChild(td1); tr.appendChild(tdU); tr.appendChild(tdL); tr.appendChild(td3);
         tbody.appendChild(tr);
       });
     }
@@ -3635,7 +3602,7 @@ function renderDashboardPage(options) {
       var name = ((nameEl && nameEl.value) || "").trim();
       var cc = ((ccEl && ccEl.value) || "de").trim().toLowerCase();
       if (!name) { showToast("\u{646}\u{627}\u{645} \u{6A9}\u{627}\u{631}\u{628}\u{631} \u{631}\u{627} \u{648}\u{627}\u{631}\u{62F} \u{6A9}\u{646}\u{6CC}\u{62F}"); return; }
-      hexUsers.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: name.slice(0, 60), cc: cc });
+      hexUsers.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: hexDecoratedName(name.slice(0, 60)), cc: cc });
       nameEl.value = "";
       hexRenderUsers();
       hexSaveUsers().then(function(){ showToast("\u{6A9}\u{627}\u{631}\u{628}\u{631} \u{630}\u{62E}\u{6CC}\u{631}\u{647} \u{634}\u{62F}: " + name + " " + hexFlag(cc)); });
@@ -4083,6 +4050,11 @@ async function getAllowedVlessUuids(env2, settings) {
   hexUuidCache = { at: now, list };
   return list;
 }
+var HEX_NAME_PREFIX = "ðŸ¦–ðŸŒµ";
+function hexDecoratedName(name) {
+  const clean = String(name || "").replace(/^[ðŸ¦–ðŸŒµ\s]+|[ðŸ¦–ðŸŒµ\s]+$/g, "").trim().slice(0, 60);
+  return HEX_NAME_PREFIX + (clean ? " " + clean + " " : " ") + HEX_NAME_PREFIX;
+}
 function hexNewUserToken() {
   return [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
@@ -4118,6 +4090,8 @@ async function handleHexUsersApi(request, env2) {
     const seenUuid = new Set();
     let dirty = false;
     for (const u of users) {
+      const decorated = hexDecoratedName(u.name);
+      if (u.name !== decorated) { u.name = decorated; dirty = true; }
       if (!u.token) { u.token = hexNewUserToken(); dirty = true; }
       if (!u.uuid || seenUuid.has(String(u.uuid).toLowerCase())) { u.uuid = hexNewUserUuid(); dirty = true; }
       seenUuid.add(String(u.uuid).toLowerCase());
@@ -4144,7 +4118,7 @@ async function handleHexUsersApi(request, env2) {
         let id = String(u && u.id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40) || crypto.randomUUID();
         if (seen.has(id)) id = crypto.randomUUID();
         seen.add(id);
-        const name = String(u && u.name || "").replace(/[\u0000-\u001f]/g, "").trim().slice(0, 60);
+         const name = hexDecoratedName(String(u && u.name || "").replace(/[\-\u001f]/g, "").trim());
         if (!name) continue;
         const cc = String(u && u.cc || "").toLowerCase().replace(/[^a-z]/g, "").slice(0, 2);
         let token = tokenById.get(id);
@@ -10221,7 +10195,7 @@ textarea:focus-visible,
 @media (max-width: 1024px) {
   .quick-action-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 }
-/* ===== HEX PANEL â€” theme-aware glass (wallpapers stay visible) ===== */
+/* ===== HEX PANEL Ã¢â‚¬â€ theme-aware glass (wallpapers stay visible) ===== */
 html { background: var(--theme-bg-fallback); }
 body { min-height: 100vh; }
 .card {
@@ -10631,7 +10605,7 @@ table thead tr { text-transform: uppercase; font-size: 11px; letter-spacing: 1px
 }
 
 /* ==========================================================================
-   HEX x MINECRAFT v2 â€” "TITLE SCREEN" THEME (green & white, pixel UI)
+   HEX x MINECRAFT v2 Ã¢â‚¬â€ "TITLE SCREEN" THEME (green & white, pixel UI)
    Signature: floating grass-block mascot, random splash text, XP bar,
    beveled block buttons that press + burst XP orbs, advancement toasts.
    ========================================================================== */
