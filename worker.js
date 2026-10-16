@@ -639,7 +639,7 @@ function notImplementedClass(name) {
 }
 const d1Ready = new WeakMap();
 function getD1(env2) {
-  const database = env2.D1 ?? env2.HEX_D1 ?? env2.DB;
+  const database = env2.D1;
   if (!database) return null;
   let ready = d1Ready.get(database);
   if (!ready) {
@@ -687,7 +687,7 @@ async function getOrInitSettings(env2) {
   if (cachedSettings && now - cachedSettingsTimestamp < CACHE_TTL_MS) {
     return cachedSettings;
   }
-  const kv = getD1(env2);
+  const d1 = getD1(env2);
   let vlessUuid = null;
   let trojanPassword = null;
   let proxyPath = null;
@@ -749,8 +749,8 @@ async function getOrInitSettings(env2) {
   let ssMethod = null;
   let dnsCustom = null;
   let clientDnsSettings = null;
-  let kvReadFailed = false;
-  if (kv) {
+  let d1ReadFailed = false;
+  if (d1) {
     try {
       [
         vlessUuid,
@@ -815,74 +815,74 @@ async function getOrInitSettings(env2) {
         dnsCustom,
         clientDnsSettings
       ] = await Promise.all([
-        kv.get(D1_KEYS.vlessUuid),
-        kv.get(D1_KEYS.trojanPassword),
-        kv.get(D1_KEYS.proxyPath),
-        kv.get(D1_KEYS.proxyIp),
-        kv.get(D1_KEYS.relayIp),
-        kv.get(D1_KEYS.nat64Prefixes),
-        kv.get(D1_KEYS.subToken),
-        kv.get(D1_KEYS.dnsDoH),
-        kv.get(D1_KEYS.allowLANConnection),
-        kv.get(D1_KEYS.fragmentEnabled),
-        kv.get(D1_KEYS.fragmentPackets),
-        kv.get(D1_KEYS.fragmentLength),
-        kv.get(D1_KEYS.fragmentInterval),
-        kv.get(D1_KEYS.routingPreset),
-        kv.get(D1_KEYS.warpPrivateKey),
-        kv.get(D1_KEYS.warpPeerPublicKey),
-        kv.get(D1_KEYS.warpIPv6),
-        kv.get(D1_KEYS.warpReserved),
-        kv.get(D1_KEYS.warpProEnabled),
-        kv.get(D1_KEYS.warpAmneziaVersion),
-        kv.get(D1_KEYS.warpNoiseCount),
-        kv.get(D1_KEYS.warpNoiseMin),
-        kv.get(D1_KEYS.warpNoiseMax),
-        kv.get(D1_KEYS.warpNoiseDelay),
-        kv.get(D1_KEYS.warpAmneziaS1),
-        kv.get(D1_KEYS.warpAmneziaS2),
-        kv.get(D1_KEYS.warpAmneziaH1),
-        kv.get(D1_KEYS.warpAmneziaH2),
-        kv.get(D1_KEYS.warpAmneziaH3),
-        kv.get(D1_KEYS.warpAmneziaH4),
-        kv.get(D1_KEYS.chainEnabled),
-        kv.get(D1_KEYS.chainType),
-        kv.get(D1_KEYS.chainAddress),
-        kv.get(D1_KEYS.chainPort),
-        kv.get(D1_KEYS.chainAuth),
-        kv.get(D1_KEYS.chainPath),
-        kv.get(D1_KEYS.chainSecurity),
-        kv.get(D1_KEYS.chainTransport),
-        kv.get(D1_KEYS.chainSni),
-        kv.get(D1_KEYS.chainHost),
-        kv.get(D1_KEYS.nodeShareToken),
-        kv.get(D1_KEYS.domainFrontingEnabled),
-        kv.get(D1_KEYS.frontingSni),
-        kv.get(D1_KEYS.frontingHost),
-        kv.get(D1_KEYS.frontingCleanIps),
-        kv.get(D1_KEYS.staticIpList),
-        kv.get(D1_KEYS.openvpnEnabled),
-        kv.get(D1_KEYS.openvpnPort),
-        kv.get(D1_KEYS.openvpnProto),
-        kv.get(D1_KEYS.openvpnCipher),
-        kv.get(D1_KEYS.anytlsFingerprint),
-        kv.get(D1_KEYS.anytlsAlpn),
-        kv.get(D1_KEYS.xhttpEnabled),
-        kv.get(D1_KEYS.xhttpPath),
-        kv.get(D1_KEYS.xhttpMode),
-        kv.get(D1_KEYS.httpUpgradeEnabled),
-        kv.get(D1_KEYS.ssEnabled),
-        kv.get(D1_KEYS.ssPassword),
-        kv.get(D1_KEYS.ssMethod),
-        kv.get(D1_KEYS.dnsCustom),
-        kv.get(D1_KEYS.clientDnsSettings)
+        d1.get(D1_KEYS.vlessUuid),
+        d1.get(D1_KEYS.trojanPassword),
+        d1.get(D1_KEYS.proxyPath),
+        d1.get(D1_KEYS.proxyIp),
+        d1.get(D1_KEYS.relayIp),
+        d1.get(D1_KEYS.nat64Prefixes),
+        d1.get(D1_KEYS.subToken),
+        d1.get(D1_KEYS.dnsDoH),
+        d1.get(D1_KEYS.allowLANConnection),
+        d1.get(D1_KEYS.fragmentEnabled),
+        d1.get(D1_KEYS.fragmentPackets),
+        d1.get(D1_KEYS.fragmentLength),
+        d1.get(D1_KEYS.fragmentInterval),
+        d1.get(D1_KEYS.routingPreset),
+        d1.get(D1_KEYS.warpPrivateKey),
+        d1.get(D1_KEYS.warpPeerPublicKey),
+        d1.get(D1_KEYS.warpIPv6),
+        d1.get(D1_KEYS.warpReserved),
+        d1.get(D1_KEYS.warpProEnabled),
+        d1.get(D1_KEYS.warpAmneziaVersion),
+        d1.get(D1_KEYS.warpNoiseCount),
+        d1.get(D1_KEYS.warpNoiseMin),
+        d1.get(D1_KEYS.warpNoiseMax),
+        d1.get(D1_KEYS.warpNoiseDelay),
+        d1.get(D1_KEYS.warpAmneziaS1),
+        d1.get(D1_KEYS.warpAmneziaS2),
+        d1.get(D1_KEYS.warpAmneziaH1),
+        d1.get(D1_KEYS.warpAmneziaH2),
+        d1.get(D1_KEYS.warpAmneziaH3),
+        d1.get(D1_KEYS.warpAmneziaH4),
+        d1.get(D1_KEYS.chainEnabled),
+        d1.get(D1_KEYS.chainType),
+        d1.get(D1_KEYS.chainAddress),
+        d1.get(D1_KEYS.chainPort),
+        d1.get(D1_KEYS.chainAuth),
+        d1.get(D1_KEYS.chainPath),
+        d1.get(D1_KEYS.chainSecurity),
+        d1.get(D1_KEYS.chainTransport),
+        d1.get(D1_KEYS.chainSni),
+        d1.get(D1_KEYS.chainHost),
+        d1.get(D1_KEYS.nodeShareToken),
+        d1.get(D1_KEYS.domainFrontingEnabled),
+        d1.get(D1_KEYS.frontingSni),
+        d1.get(D1_KEYS.frontingHost),
+        d1.get(D1_KEYS.frontingCleanIps),
+        d1.get(D1_KEYS.staticIpList),
+        d1.get(D1_KEYS.openvpnEnabled),
+        d1.get(D1_KEYS.openvpnPort),
+        d1.get(D1_KEYS.openvpnProto),
+        d1.get(D1_KEYS.openvpnCipher),
+        d1.get(D1_KEYS.anytlsFingerprint),
+        d1.get(D1_KEYS.anytlsAlpn),
+        d1.get(D1_KEYS.xhttpEnabled),
+        d1.get(D1_KEYS.xhttpPath),
+        d1.get(D1_KEYS.xhttpMode),
+        d1.get(D1_KEYS.httpUpgradeEnabled),
+        d1.get(D1_KEYS.ssEnabled),
+        d1.get(D1_KEYS.ssPassword),
+        d1.get(D1_KEYS.ssMethod),
+        d1.get(D1_KEYS.dnsCustom),
+        d1.get(D1_KEYS.clientDnsSettings)
       ]);
     } catch (err) {
-      kvReadFailed = true;
+      d1ReadFailed = true;
       console.warn("Could not read settings from D1:", err);
     }
   }
-  if (kvReadFailed) {
+  if (d1ReadFailed) {
     if (cachedSettings) {
       cachedSettingsTimestamp = now - CACHE_TTL_MS + 60000;
       return cachedSettings;
@@ -906,10 +906,10 @@ async function getOrInitSettings(env2) {
     nodeShareToken = generateRandomToken(24);
     missingKeysToPersist.push({ key: D1_KEYS.nodeShareToken, value: nodeShareToken });
   }
-  if (missingKeysToPersist.length > 0 && kv) {
+  if (missingKeysToPersist.length > 0 && d1) {
     for (const item of missingKeysToPersist) {
       try {
-        await kv.put(item.key, item.value);
+        await d1.put(item.key, item.value);
       } catch (saveErr) {
         console.warn(`Failed to persist initial key ${item.key} to D1:`, saveErr?.message || saveErr);
         if (saveErr?.message?.toLowerCase().includes("limit exceeded") || saveErr?.message?.toLowerCase().includes("quota")) {
@@ -1557,10 +1557,10 @@ async function getJwtSecret(env2) {
     cachedJwtSecret = env2.JWT_SECRET.trim();
     return cachedJwtSecret;
   }
-  const kv = getD1(env2);
-  if (kv) {
+  const d1 = getD1(env2);
+  if (d1) {
     try {
-      const stored = await kv.get(D1_KEYS.jwtSecret);
+      const stored = await d1.get(D1_KEYS.jwtSecret);
       if (stored && stored.trim().length >= 32) {
         cachedJwtSecret = stored.trim();
         return cachedJwtSecret;
@@ -1569,7 +1569,7 @@ async function getJwtSecret(env2) {
       crypto.getRandomValues(randomBytes2);
       const generated = Array.from(randomBytes2, (b) => b.toString(16).padStart(2, "0")).join("");
       try {
-        await kv.put(D1_KEYS.jwtSecret, generated);
+        await d1.put(D1_KEYS.jwtSecret, generated);
       } catch (putErr) {
         console.warn("Could not persist JWT secret to D1:", putErr?.message || putErr);
         if (putErr?.message?.toLowerCase().includes("limit exceeded") || putErr?.message?.toLowerCase().includes("quota")) {
@@ -1589,7 +1589,7 @@ async function getJwtSecret(env2) {
     cachedJwtSecret = Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("");
     return cachedJwtSecret;
   }
-  throw new Error("No JWT signing key available: configure a D1 database (D1, HEX_D1, or DB), or set JWT_SECRET, or set PANEL_PASSWORD.");
+  throw new Error("No JWT signing key available: configure the D1 database binding, or set JWT_SECRET, or set PANEL_PASSWORD.");
 }
 function getSecretKey(secret) {
   if (!secret) throw new Error("Refusing to sign or verify a session with an empty key.");
@@ -1708,10 +1708,10 @@ async function hasConfiguredPassword(env2) {
   if (cachedPasswordConfigured !== null) {
     return cachedPasswordConfigured;
   }
-  const kv = getD1(env2);
-  if (kv) {
+  const d1 = getD1(env2);
+  if (d1) {
     try {
-      const kvPassword = await kv.get(D1_KEYS.adminPassword);
+      const kvPassword = await d1.get(D1_KEYS.adminPassword);
       if (kvPassword && kvPassword.trim().length > 0) {
         cachedAdminPassword = kvPassword.trim();
         cachedPasswordConfigured = true;
@@ -1728,10 +1728,10 @@ async function getExpectedPassword(env2) {
   if (cachedAdminPassword) {
     return { password: cachedAdminPassword, isConfigured: true };
   }
-  const kv = getD1(env2);
-  if (kv) {
+  const d1 = getD1(env2);
+  if (d1) {
     try {
-      const kvPassword = await kv.get(D1_KEYS.adminPassword);
+      const kvPassword = await d1.get(D1_KEYS.adminPassword);
       if (kvPassword && kvPassword.trim().length > 0) {
         cachedAdminPassword = kvPassword.trim();
         cachedPasswordConfigured = true;
@@ -1808,13 +1808,13 @@ async function verifyPassword(submitted, env2) {
   }
   const ok = constantTimeEquals(candidate, password);
   if (ok) {
-    const kv = getD1(env2);
-    if (kv) {
+    const d1 = getD1(env2);
+    if (d1) {
       try {
-        const stored = await kv.get(D1_KEYS.adminPassword);
+        const stored = await d1.get(D1_KEYS.adminPassword);
         if (stored && !isHashedPassword(stored)) {
           const upgraded = await hashPassword(candidate);
-          await kv.put(D1_KEYS.adminPassword, upgraded);
+          await d1.put(D1_KEYS.adminPassword, upgraded);
           cachedAdminPassword = upgraded;
         }
       } catch (err) {
@@ -1828,13 +1828,13 @@ async function setPassword(newPassword, env2) {
   if (!newPassword || newPassword.trim().length < 8) {
     throw new Error("Password must be at least 8 characters long");
   }
-  const kv = getD1(env2);
-  if (!kv) {
-    throw new Error("D1 binding (D1, HEX_D1, or DB) is not available");
+  const d1 = getD1(env2);
+  if (!d1) {
+    throw new Error("D1 binding is not available");
   }
   try {
     const record = await hashPassword(newPassword.trim());
-    await kv.put(D1_KEYS.adminPassword, record);
+    await d1.put(D1_KEYS.adminPassword, record);
     cachedAdminPassword = record;
     cachedPasswordConfigured = true;
     return true;
@@ -1856,7 +1856,7 @@ function renderPageLayout(options) {
   <script>
     (function() {
       try {
-        var THEMES = ['theme-1', 'theme-2', 'theme-3', 'theme-4', 'theme-5'];
+        var THEMES = ['theme-mc'];
         var params = new URLSearchParams(window.location.search);
         var isNewLogin = params.get('login') === 'success' || params.get('setup') === 'success';
         var currentTheme = sessionStorage.getItem('hex-current-session-theme');
@@ -1872,7 +1872,7 @@ function renderPageLayout(options) {
         }
         document.documentElement.setAttribute('data-theme', currentTheme);
       } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'theme-1');
+        document.documentElement.setAttribute('data-theme', 'theme-mc');
       }
     })();
   </script>
@@ -2015,10 +2015,10 @@ function renderPageLayout(options) {
     }
 
     function randomizeHEXTheme() {
-      const themes = ['theme-1', 'theme-2', 'theme-3', 'theme-4', 'theme-5'];
-      const current = document.documentElement.getAttribute('data-theme') || 'theme-1';
+      const themes = ['theme-mc'];
+      const current = document.documentElement.getAttribute('data-theme') || 'theme-mc';
       const candidates = themes.filter(function(t) { return t !== current; });
-      const next = candidates[Math.floor(Math.random() * candidates.length)] || 'theme-1';
+      const next = 'theme-mc';
       setHEXTheme(next);
     }
 
@@ -2031,7 +2031,7 @@ function renderPageLayout(options) {
     });
 
     (function syncThemeUI() {
-      const current = document.documentElement.getAttribute('data-theme') || 'theme-1';
+      const current = document.documentElement.getAttribute('data-theme') || 'theme-mc';
       const sels = document.querySelectorAll('.theme-selector-dropdown');
       sels.forEach(s => {
         s.value = current;
@@ -2070,11 +2070,7 @@ function renderLoginPage(options) {
           <span class="badge badge-sky">\u2728 v${APP_CONFIG.version} HEX Nebula</span>
           <div class="theme-pill-control" style="padding: 2px 8px;">
             <select class="theme-selector-dropdown" onchange="setHEXTheme(this.value)">
-              <option value="theme-1">Lunar Eclipse ðŸŒ‘</option>
-              <option value="theme-2">Emerald Forest ðŸŒ¿</option>
-              <option value="theme-3">Blood Moon Ronin ðŸ©¸</option>
-              <option value="theme-4">Neon Night ðŸŒƒ</option>
-              <option value="theme-5">Dark Knight ðŸ¦‡</option>
+              <option value="theme-mc">Minecraft Grass</option>
             </select>
             <button type="button" class="theme-dice-btn" onclick="randomizeHEXTheme()" title="Randomize Theme" style="width: 20px; height: 20px; font-size: 10px;">\u{1F3B2}</button>
           </div>
@@ -2478,11 +2474,7 @@ function renderDashboardPage(options) {
           <div class="theme-pill-control">
             <span style="font-size: 13px;">\u{1F3A8}</span>
             <select class="theme-selector-dropdown" onchange="setHEXTheme(this.value)">
-              <option value="theme-1">Theme 1 \u2014 Lunar Eclipse</option>
-              <option value="theme-2">Theme 2 \u2014 Emerald Forest</option>
-              <option value="theme-3">Theme 3 \u2014 Blood Moon Ronin</option>
-              <option value="theme-4">Theme 4 \u2014 Neon Night</option>
-              <option value="theme-5">Theme 5 \u2014 Dark Knight</option>
+              <option value="theme-mc">Minecraft Grass</option>
             </select>
             <button type="button" class="theme-dice-btn" onclick="randomizeHEXTheme()" title="Randomize Theme">\u{1F3B2}</button>
           </div>
@@ -3363,19 +3355,13 @@ function renderDashboardPage(options) {
             <span>\u{1F3A8}</span>
             <span>Aesthetic Themes &amp; Wallpaper Engine</span>
           </div>
-          <p class="card-desc">5 wallpaper themes: Lunar Eclipse, Emerald Forest, Blood Moon Ronin, Neon Night and Dark Knight.</p>
+          <p class="card-desc">Minecraft Grass: green &amp; white pixel panel.</p>
 
           <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
             <select class="form-control theme-selector-dropdown" onchange="setHEXTheme(this.value)" style="flex: 2; min-width: 200px;">
-              <option value="theme-1">Theme 1 \u2014 Lunar Eclipse</option>
-              <option value="theme-2">Theme 2 \u2014 Emerald Forest</option>
-              <option value="theme-3">Theme 3 \u2014 Blood Moon Ronin</option>
-              <option value="theme-4">Theme 4 \u2014 Neon Night</option>
-              <option value="theme-5">Theme 5 \u2014 Dark Knight</option>
+              <option value="theme-mc">Minecraft Grass</option>
             </select>
-            <button type="button" class="btn btn-primary" onclick="randomizeHEXTheme()" style="flex: 1; min-width: 160px;">
-              <span>\u{1F3B2} Randomize Theme</span>
-            </button>
+
           </div>
         </div>
 
@@ -3905,9 +3891,9 @@ function parseReservedBytes(clientIdB64) {
   }
 }
 async function registerWarpAccount(env2) {
-  const kv = getD1(env2);
-  if (!kv) {
-    throw new Error("D1 binding (D1, HEX_D1, or DB) is required to persist Warp credentials.");
+  const d1 = getD1(env2);
+  if (!d1) {
+    throw new Error("D1 binding is required to persist Warp credentials.");
   }
   const { privateKey, publicKey } = generateWireGuardKeyPair();
   const payload = {
@@ -3942,12 +3928,12 @@ async function registerWarpAccount(env2) {
   const endpoint = "162.159.192.1:2408";
   const reserved = parseReservedBytes(data.config.client_id);
   try {
-    await kv.put(D1_KEYS.warpPrivateKey, privateKey);
-    await kv.put(D1_KEYS.warpPeerPublicKey, peerPublicKey);
+    await d1.put(D1_KEYS.warpPrivateKey, privateKey);
+    await d1.put(D1_KEYS.warpPeerPublicKey, peerPublicKey);
     if (ipv6)
-      await kv.put(D1_KEYS.warpIPv6, ipv6);
+      await d1.put(D1_KEYS.warpIPv6, ipv6);
     if (reserved)
-      await kv.put(D1_KEYS.warpReserved, reserved);
+      await d1.put(D1_KEYS.warpReserved, reserved);
     invalidateSettingsCache();
   } catch (putErr) {
     const isQuota = putErr?.message?.toLowerCase().includes("quota") || putErr?.message?.toLowerCase().includes("limit exceeded");
@@ -4002,9 +3988,9 @@ async function getAllowedTrojanPasswords(env2, settings) {
   const now = Date.now();
   if (hexTrojanCache.list && now - hexTrojanCache.at < 300000) return hexTrojanCache.list;
   const list = [String(settings.trojanPassword || "")];
-  const kv = getD1(env2);
-  if (kv) {
-    const users = await hexReadUsers(kv);
+  const d1 = getD1(env2);
+  if (d1) {
+    const users = await hexReadUsers(d1);
     for (const u of users) if (u && u.uuid) list.push(hexUserTrojanPass(u.uuid));
   }
   hexTrojanCache = { at: now, list };
@@ -4022,9 +4008,9 @@ async function getAllowedVlessUuids(env2, settings) {
   const now = Date.now();
   if (hexUuidCache.list && now - hexUuidCache.at < 300000) return hexUuidCache.list;
   const list = [String(settings.vlessUuid || "").toLowerCase()];
-  const kv = getD1(env2);
-  if (kv) {
-    const users = await hexReadUsers(kv);
+  const d1 = getD1(env2);
+  if (d1) {
+    const users = await hexReadUsers(d1);
     for (const u of users) if (u && u.uuid) list.push(String(u.uuid).toLowerCase());
   }
   hexUuidCache = { at: now, list };
@@ -4033,9 +4019,9 @@ async function getAllowedVlessUuids(env2, settings) {
 function hexNewUserToken() {
   return [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
-async function hexReadUsers(kv) {
+async function hexReadUsers(d1) {
   try {
-    const raw = await kv.get(HEX_USERS_KEY);
+    const raw = await d1.get(HEX_USERS_KEY);
     const users = raw ? JSON.parse(raw) : [];
     return Array.isArray(users) ? users : [];
   } catch (e) {
@@ -4043,9 +4029,9 @@ async function hexReadUsers(kv) {
   }
 }
 async function findHexUserByToken(env2, token) {
-  const kv = getD1(env2);
-  if (!kv || !token || String(token).length < 16) return null;
-  const users = await hexReadUsers(kv);
+  const d1 = getD1(env2);
+  if (!d1 || !token || String(token).length < 16) return null;
+  const users = await hexReadUsers(d1);
   for (const u of users) {
     if (u && u.token && constantTimeEquals(String(token), String(u.token))) {
       return { id: u.id, name: u.name, cc: u.cc, uuid: u.uuid || "" };
@@ -4058,10 +4044,10 @@ async function handleHexUsersApi(request, env2) {
     status,
     headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" }
   });
-  const kv = getD1(env2);
-  if (!kv) return json({ ok: false, error: "D1 binding (D1, HEX_D1, or DB) is not available" }, 500);
+  const d1 = getD1(env2);
+  if (!d1) return json({ ok: false, error: "D1 binding is not available" }, 500);
   if (request.method === "GET") {
-    const users = await hexReadUsers(kv);
+    const users = await hexReadUsers(d1);
     const seenUuid = new Set();
     let dirty = false;
     for (const u of users) {
@@ -4070,7 +4056,7 @@ async function handleHexUsersApi(request, env2) {
       seenUuid.add(String(u.uuid).toLowerCase());
     }
     if (dirty) {
-      try { await kv.put(HEX_USERS_KEY, JSON.stringify(users)); hexUuidCache = { at: 0, list: null }; hexTrojanCache = { at: 0, list: null }; } catch (e) {}
+      try { await d1.put(HEX_USERS_KEY, JSON.stringify(users)); hexUuidCache = { at: 0, list: null }; hexTrojanCache = { at: 0, list: null }; } catch (e) {}
     }
     return json({ ok: true, users });
   }
@@ -4081,7 +4067,7 @@ async function handleHexUsersApi(request, env2) {
     try {
       const body = await request.json();
       if (!body || !Array.isArray(body.users)) return json({ ok: false, error: "users array required" }, 400);
-      const existing = await hexReadUsers(kv);
+      const existing = await hexReadUsers(d1);
       const tokenById = new Map(existing.map((u) => [u.id, u.token]));
       const uuidById = new Map(existing.map((u) => [u.id, u.uuid]));
       const usedUuids = new Set();
@@ -4101,7 +4087,7 @@ async function handleHexUsersApi(request, env2) {
         usedUuids.add(String(uuid).toLowerCase());
         users.push({ id, name, cc, token, uuid });
       }
-      await kv.put(HEX_USERS_KEY, JSON.stringify(users));
+      await d1.put(HEX_USERS_KEY, JSON.stringify(users));
       hexUuidCache = { at: 0, list: null }; hexTrojanCache = { at: 0, list: null };
       return json({ ok: true, users });
     } catch (err) {
@@ -4185,12 +4171,12 @@ async function handlePanel(request, env2) {
     } else if (pathname === "/panel/settings/nodeshare/regen") {
       initialTab = "settings";
       try {
-        const kv = getD1(env2);
-        if (!kv) {
-          throw new Error("D1 binding (D1, HEX_D1, or DB) is not available");
+        const d1 = getD1(env2);
+        if (!d1) {
+          throw new Error("D1 binding is not available");
         }
         const newToken = generateRandomToken2(24);
-        await kv.put(D1_KEYS.nodeShareToken, newToken);
+        await d1.put(D1_KEYS.nodeShareToken, newToken);
         invalidateSettingsCache();
         settings = await getOrInitSettings(env2);
         flashMessage = { type: "success", text: "New Node Share token generated! \u2728" };
@@ -4203,9 +4189,9 @@ async function handlePanel(request, env2) {
       }
     } else if (pathname === "/panel/settings/protocols") {
       try {
-        const kv = getD1(env2);
-        if (!kv) {
-          throw new Error("D1 binding (D1, HEX_D1, or DB) is not available");
+        const d1 = getD1(env2);
+        if (!d1) {
+          throw new Error("D1 binding is not available");
         }
         const formData = await request.formData();
         const currentSettings = await getOrInitSettings(env2);
@@ -4391,7 +4377,7 @@ async function handlePanel(request, env2) {
         } else {
           for (const item of updates) {
             try {
-              await kv.put(item.key, item.value);
+              await d1.put(item.key, item.value);
             } catch (putErr) {
               const isQuota = putErr?.message?.toLowerCase().includes("quota") || putErr?.message?.toLowerCase().includes("limit exceeded");
               throw new Error(isQuota ? "D1 write failed \u2014 check the database binding" : putErr?.message || "Failed to write to D1");
@@ -6430,9 +6416,9 @@ async function handleNodeImport(request, env2) {
         headers: { "Content-Type": "application/json; charset=utf-8" }
       });
     }
-    const kv = getD1(env2);
-    if (!kv) {
-      return new Response(JSON.stringify({ error: "D1 Missing", message: "D1 binding D1, HEX_D1, or DB is required." }), {
+    const d1 = getD1(env2);
+    if (!d1) {
+      return new Response(JSON.stringify({ error: "D1 Missing", message: "D1 binding D1 is required." }), {
         status: 500,
         headers: { "Content-Type": "application/json; charset=utf-8" }
       });
@@ -6561,7 +6547,7 @@ async function handleNodeImport(request, env2) {
     }
     for (const item of pendingWrites) {
       try {
-        await kv.put(item.key, item.value);
+        await d1.put(item.key, item.value);
         importedKeys.push(item.fieldName);
       } catch (putErr) {
         const isQuota = putErr?.message?.toLowerCase().includes("quota") || putErr?.message?.toLowerCase().includes("limit exceeded");
@@ -8681,30 +8667,31 @@ var init_worker = __esm({
     MASCOT_SVG = `<svg class="mascot-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
   <defs>
     <linearGradient id="hex-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00FFA3"/>
-      <stop offset="50%" stop-color="#7C3AED"/>
-      <stop offset="100%" stop-color="#06B6D4"/>
+      <stop offset="0%" stop-color="#8FD45E"/>
+      <stop offset="50%" stop-color="#5DAE3B"/>
+      <stop offset="100%" stop-color="#3B7A23"/>
     </linearGradient>
     <filter id="hex-glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feGaussianBlur stdDeviation="0" result="coloredBlur"/>
       <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
   <!-- Outer hex -->
-  <path d="M50 8 L84 28 L84 72 L50 92 L16 72 L16 28 Z" stroke="url(#hex-gradient)" stroke-width="3" fill="rgba(124,58,237,0.08)" filter="url(#hex-glow)"/>
+  <path d="M50 8 L84 28 L84 72 L50 92 L16 72 L16 28 Z" stroke="url(#hex-gradient)" stroke-width="3" fill="rgba(93,174,59,0.12)" filter="url(#hex-glow)"/>
   <!-- Inner hex -->
-  <path d="M50 18 L75 33 L75 67 L50 82 L25 67 L25 33 Z" stroke="#00FFA3" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <path d="M50 18 L75 33 L75 67 L50 82 L25 67 L25 33 Z" stroke="#8FD45E" stroke-width="1.5" fill="none" opacity="0.6"/>
   <!-- Center H -->
-  <path d="M38 38 L38 62 M62 38 L62 62 M38 50 L62 50" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M38 38 L38 62 M62 38 L62 62 M38 50 L62 50" stroke="#1E3A14" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
   <!-- Corner dots -->
-  <circle cx="50" cy="8" r="2.5" fill="#00FFA3"/>
-  <circle cx="84" cy="28" r="2.5" fill="#7C3AED"/>
-  <circle cx="84" cy="72" r="2.5" fill="#06B6D4"/>
-  <circle cx="50" cy="92" r="2.5" fill="#00FFA3"/>
-  <circle cx="16" cy="72" r="2.5" fill="#7C3AED"/>
-  <circle cx="16" cy="28" r="2.5" fill="#06B6D4"/>
+  <circle cx="50" cy="8" r="2.5" fill="#8FD45E"/>
+  <circle cx="84" cy="28" r="2.5" fill="#5DAE3B"/>
+  <circle cx="84" cy="72" r="2.5" fill="#3B7A23"/>
+  <circle cx="50" cy="92" r="2.5" fill="#8FD45E"/>
+  <circle cx="16" cy="72" r="2.5" fill="#5DAE3B"/>
+  <circle cx="16" cy="28" r="2.5" fill="#3B7A23"/>
 </svg>`;
     BASE_STYLES = `@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Nunito:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;600;700&family=Press+Start+2P&display=swap');
 
 /* ==========================================================================
    BLUEKNIGHT 5 DYNAMIC ADAPTIVE THEMES (LIGHT & DARK GLASS PALETTES)
@@ -10591,6 +10578,266 @@ table thead tr { text-transform: uppercase; font-size: 11px; letter-spacing: 1px
   .app-main, [dir="rtl"] .app-main { padding: 12px 14px 28px !important; }
   .app-header { top: 8px; }
   .card:hover, .action-tile:hover { transform: none; }
+}
+
+/* ==========================================================================
+   HEX x MINECRAFT â€” GRASS BLOCK THEME (green & white, pixel UI)
+   Forced single theme. Signature: grass-block strip on every panel,
+   beveled pixel buttons that "press" into the page.
+   ========================================================================== */
+html, html[data-theme] {
+  --mc-grass: #5DAE3B;
+  --mc-grass-hi: #8FD45E;
+  --mc-grass-lo: #3B7A23;
+  --mc-grass-mid: #4E9A30;
+  --mc-ink: #1E3A14;
+  --mc-paper: #FFFFFF;
+  --mc-tint: #F1F8EC;
+  --mc-line: #D6E6CC;
+  --mc-strip:
+    linear-gradient(90deg, #6CC24A 0 12px, #5DAE3B 12px 24px, #79CF55 24px 36px, #4E9A30 36px 48px) 0 0 / 48px 8px repeat-x,
+    linear-gradient(90deg, #4E9A30 0 6px, transparent 6px 18px, #5DAE3B 18px 24px, transparent 24px 36px, #3B7A23 36px 42px, transparent 42px 48px) 0 8px / 48px 4px repeat-x;
+  --mc-font-pixel: 'Pixelify Sans', 'Vazirmatn', system-ui, sans-serif;
+  --mc-font-title: 'Press Start 2P', 'Pixelify Sans', 'Vazirmatn', monospace;
+
+  --theme-name: "Minecraft Grass";
+  --theme-primary: #3B7A23 !important;
+  --theme-primary-hover: #2F661B !important;
+  --theme-primary-soft: rgba(93, 174, 59, 0.14) !important;
+  --theme-primary-rgb: 93, 174, 59 !important;
+  --theme-secondary: #4E9A30 !important;
+  --theme-accent: #5DAE3B !important;
+  --theme-bg-image: none !important;
+  --theme-bg-overlay: transparent !important;
+  --theme-bg-fallback: #FFFFFF !important;
+  --theme-surface: #FFFFFF !important;
+  --theme-surface-soft: #F1F8EC !important;
+  --theme-surface-strong: #F7FBF4 !important;
+  --theme-border: #D6E6CC !important;
+  --theme-border-hover: #5DAE3B !important;
+  --theme-shadow: rgba(30, 58, 20, 0.18) !important;
+  --theme-glow: rgba(93, 174, 59, 0.25) !important;
+  --theme-text-primary: #1E3A14 !important;
+  --theme-text-secondary: #2F4F22 !important;
+  --theme-text-muted: #5B7A4C !important;
+  --theme-input-bg: #FFFFFF !important;
+  --theme-input-border: #3B7A23 !important;
+  --theme-btn-primary-bg: #5DAE3B !important;
+  --theme-btn-primary-hover: #6CC24A !important;
+  --theme-btn-primary-text: #FFFFFF !important;
+  --theme-btn-secondary-bg: #D8F0C8 !important;
+  --theme-btn-secondary-hover: #C6E8B0 !important;
+  --theme-btn-secondary-text: #1E3A14 !important;
+  --theme-btn-secondary-border: #1E3A14 !important;
+  --theme-badge-bg: #E3F4D8 !important;
+  --theme-badge-text: #2F661B !important;
+  --neo-radius: 0px !important;
+  --neo-glass: none !important;
+  --neo-blur: none !important;
+  color-scheme: light;
+}
+
+/* World: clean white with a faint block grid */
+body {
+  background-color: #FFFFFF !important;
+  background-image:
+    linear-gradient(rgba(93,174,59,0.07) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(93,174,59,0.07) 2px, transparent 2px) !important;
+  background-size: 32px 32px !important;
+  background-attachment: fixed !important;
+  color: var(--mc-ink) !important;
+}
+body::before, body::after { display: none !important; animation: none !important; }
+
+h1, h2, h3, h4 { font-family: var(--mc-font-pixel) !important; font-weight: 700 !important; color: var(--mc-ink) !important; letter-spacing: .3px; }
+.brand-title { font-family: var(--mc-font-title) !important; font-size: 13px !important; line-height: 1.5 !important; color: var(--mc-ink) !important; letter-spacing: 1px !important; text-shadow: 2px 2px 0 #C6E8B0; }
+a { color: var(--theme-primary); }
+
+/* ---------- Pixel panels ---------- */
+.card, .modal-card, .toast-msg {
+  background: var(--mc-strip), #FFFFFF !important;
+  border: 3px solid var(--mc-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 rgba(30,58,20,0.16) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  padding-top: 26px !important;
+  transition: transform .12s steps(2), box-shadow .12s steps(2) !important;
+}
+.card::before, .card::after { display: none !important; }
+.card:hover {
+  transform: translate(-2px, -2px) !important;
+  border-color: var(--mc-ink) !important;
+  box-shadow: 8px 8px 0 rgba(30,58,20,0.20) !important;
+}
+.card-primary { background: var(--mc-strip), #FFFFFF !important; border-top: 3px solid var(--mc-ink) !important; }
+.card > div[style*="position: absolute; top: 0"] { display: none !important; }
+.card-title { font-family: var(--mc-font-pixel) !important; font-size: 18px !important; font-weight: 600 !important; color: var(--mc-ink) !important; letter-spacing: .3px !important; }
+.card-title > span:first-child {
+  border-radius: 0 !important;
+  background: var(--mc-grass) !important;
+  border: 2px solid var(--mc-ink) !important;
+  box-shadow: inset 3px 3px 0 var(--mc-grass-hi), inset -3px -3px 0 var(--mc-grass-lo) !important;
+}
+.card-desc { color: var(--theme-text-muted) !important; }
+.card-divider { border-color: var(--mc-line) !important; }
+
+.action-tile {
+  border-radius: 0 !important;
+  background: #FFFFFF !important;
+  border: 3px solid var(--mc-ink) !important;
+  box-shadow: 4px 4px 0 rgba(30,58,20,0.14) !important;
+  backdrop-filter: none !important;
+  transition: transform .1s steps(2) !important;
+}
+.action-tile::after { display: none !important; }
+.action-tile:hover { transform: translate(-2px,-2px) !important; background: var(--mc-tint) !important; border-color: var(--mc-ink) !important; box-shadow: 6px 6px 0 rgba(30,58,20,0.18) !important; }
+.action-tile-icon {
+  border-radius: 0 !important;
+  background: var(--mc-grass) !important;
+  border: 2px solid var(--mc-ink) !important;
+  box-shadow: inset 3px 3px 0 var(--mc-grass-hi), inset -3px -3px 0 var(--mc-grass-lo) !important;
+}
+
+/* ---------- Sidebar: inventory panel ---------- */
+.app-sidebar::before {
+  background: var(--mc-strip), #FFFFFF !important;
+  border: 3px solid var(--mc-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 rgba(30,58,20,0.16) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.app-sidebar::after { display: none !important; }
+.sidebar-brand, .sidebar-footer { border-color: var(--mc-line) !important; }
+.nav-section, .nav-section::after { color: var(--theme-text-muted) !important; font-family: var(--mc-font-pixel) !important; letter-spacing: 1px !important; }
+.nav-section::after { background: var(--mc-line) !important; }
+.nav-btn {
+  border-radius: 0 !important;
+  border: 2px solid transparent !important;
+  font-family: var(--mc-font-pixel) !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: var(--mc-ink) !important;
+  background: transparent !important;
+  transition: none !important;
+}
+.nav-btn:hover { background: var(--mc-tint) !important; border-color: var(--mc-line) !important; transform: none !important; }
+.nav-btn.active {
+  background: var(--mc-grass) !important;
+  color: #FFFFFF !important;
+  border-color: var(--mc-ink) !important;
+  box-shadow: inset 3px 3px 0 var(--mc-grass-hi), inset -3px -3px 0 var(--mc-grass-lo) !important;
+  text-shadow: 2px 2px 0 rgba(30,58,20,0.45);
+}
+.nav-btn.active::before { display: none !important; }
+.nav-btn .nav-icon, .nav-icon { border-radius: 0 !important; background: var(--mc-tint) !important; border: 2px solid var(--mc-line) !important; box-shadow: none !important; }
+.nav-btn.active .nav-icon { background: rgba(255,255,255,0.22) !important; border-color: rgba(255,255,255,0.5) !important; }
+.nav-tag { border-radius: 0 !important; background: var(--mc-ink) !important; color: #FFFFFF !important; border: none !important; font-family: var(--mc-font-pixel) !important; }
+.sidebar-status-pill { border-radius: 0 !important; background: var(--mc-tint) !important; border: 2px solid var(--mc-line) !important; box-shadow: none !important; }
+.sidebar-status-dot { border-radius: 0 !important; background: var(--mc-grass) !important; box-shadow: none !important; animation: mcBlink 1.6s steps(1) infinite !important; }
+@keyframes mcBlink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .35; } }
+
+/* ---------- Header: hotbar ---------- */
+.app-header {
+  background: #FFFFFF !important;
+  border: 3px solid var(--mc-ink) !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 rgba(30,58,20,0.16) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.header-icon-box { border-radius: 0 !important; background: var(--mc-grass) !important; border: 2px solid var(--mc-ink) !important; box-shadow: inset 3px 3px 0 var(--mc-grass-hi), inset -3px -3px 0 var(--mc-grass-lo) !important; }
+.theme-pill-control, .theme-dice-btn { display: none !important; }
+
+/* ---------- Buttons: beveled grass blocks ---------- */
+.btn {
+  border-radius: 0 !important;
+  border: 3px solid var(--mc-ink) !important;
+  font-family: var(--mc-font-pixel) !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  letter-spacing: .4px;
+  transition: none !important;
+  position: relative;
+}
+.btn-primary {
+  background: var(--mc-grass) !important;
+  color: #FFFFFF !important;
+  text-shadow: 2px 2px 0 rgba(30,58,20,0.5);
+  box-shadow: inset 3px 3px 0 var(--mc-grass-hi), inset -3px -3px 0 var(--mc-grass-lo), 0 4px 0 var(--mc-ink) !important;
+}
+.btn-primary::after { display: none !important; animation: none !important; }
+.btn-primary:hover { background: #6CC24A !important; color: #FFFFFF !important; transform: none !important; box-shadow: inset 3px 3px 0 #A6E27A, inset -3px -3px 0 var(--mc-grass-lo), 0 4px 0 var(--mc-ink) !important; }
+.btn-secondary {
+  background: #D8F0C8 !important;
+  color: var(--mc-ink) !important;
+  backdrop-filter: none !important;
+  box-shadow: inset 3px 3px 0 #F2FBEC, inset -3px -3px 0 #A9D392, 0 4px 0 var(--mc-ink) !important;
+}
+.btn-secondary:hover { background: #C6E8B0 !important; color: var(--mc-ink) !important; border-color: var(--mc-ink) !important; transform: none !important; }
+.btn:active, .btn-primary:active, .btn-secondary:active {
+  transform: translateY(4px) !important;
+  box-shadow: inset -3px -3px 0 var(--mc-grass-hi), inset 3px 3px 0 var(--mc-grass-lo), 0 0 0 var(--mc-ink) !important;
+}
+.btn-secondary:active { box-shadow: inset -3px -3px 0 #F2FBEC, inset 3px 3px 0 #A9D392, 0 0 0 var(--mc-ink) !important; }
+.btn-sm { font-size: 13.5px !important; border-width: 2px !important; }
+.btn-sm.btn-primary { box-shadow: inset 2px 2px 0 var(--mc-grass-hi), inset -2px -2px 0 var(--mc-grass-lo), 0 3px 0 var(--mc-ink) !important; }
+.btn-sm.btn-secondary { box-shadow: inset 2px 2px 0 #F2FBEC, inset -2px -2px 0 #A9D392, 0 3px 0 var(--mc-ink) !important; }
+.btn:disabled, .btn[disabled] { filter: grayscale(.6); opacity: .7; cursor: not-allowed; }
+
+/* ---------- Inputs: crafting slots ---------- */
+.form-control, select, textarea {
+  background: #FFFFFF !important;
+  color: var(--mc-ink) !important;
+  border: 2px solid var(--mc-grass-lo) !important;
+  border-radius: 0 !important;
+  box-shadow: inset 3px 3px 0 #E3EEDB !important;
+  transition: none !important;
+}
+.form-control:focus, select:focus, textarea:focus {
+  border-color: var(--mc-ink) !important;
+  box-shadow: inset 3px 3px 0 #E3EEDB, 0 0 0 3px #C6E8B0 !important;
+}
+.form-label { font-family: var(--mc-font-pixel) !important; font-weight: 600 !important; font-size: 14px !important; color: var(--mc-ink) !important; }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--mc-grass) !important; }
+select option { background: #FFFFFF; color: var(--mc-ink); }
+select:focus-visible, input:focus-visible, textarea:focus-visible, .btn:focus-visible, .nav-btn:focus-visible { outline: 3px solid var(--mc-ink) !important; outline-offset: 2px !important; }
+
+/* ---------- Badges ---------- */
+.badge { border-radius: 0 !important; backdrop-filter: none !important; box-shadow: none !important; font-family: var(--mc-font-pixel) !important; font-weight: 600 !important; border: 2px solid currentColor !important; }
+.badge-mint, .badge-sky, .badge-lavender { background: #E3F4D8 !important; color: #2F661B !important; }
+.badge-sakura { background: #FDE8E6 !important; color: #A1271B !important; }
+.badge-amber { background: #FFF4CC !important; color: #7A5A00 !important; }
+
+/* ---------- Tables ---------- */
+table thead tr { font-family: var(--mc-font-pixel) !important; color: var(--theme-text-muted) !important; border-bottom: 3px solid var(--mc-ink) !important; }
+table tbody tr { border-bottom: 2px solid var(--mc-line) !important; }
+table tbody tr:hover { background: var(--mc-tint) !important; }
+
+/* ---------- Modal / toast ---------- */
+.modal-backdrop { background: rgba(30,58,20,0.35) !important; backdrop-filter: none !important; }
+.toast-msg { color: var(--mc-ink) !important; font-family: var(--mc-font-pixel) !important; font-size: 15px !important; }
+
+/* ---------- Motion: block steps, not glides ---------- */
+.tab-pane.active { animation: mcPlace .24s steps(3) both !important; }
+@keyframes mcPlace { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Scrollbars & selection ---------- */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--mc-tint); }
+::-webkit-scrollbar-thumb { background: var(--mc-grass); border: 2px solid var(--mc-ink); border-radius: 0; box-shadow: inset 2px 2px 0 var(--mc-grass-hi); }
+::selection { background: #C6E8B0; color: var(--mc-ink); }
+.mascot-icon { image-rendering: pixelated; }
+
+@media (max-width: 860px) {
+  .app-sidebar::before { background: var(--mc-strip), #FFFFFF !important; border-radius: 0 !important; }
+  .card:hover, .action-tile:hover { transform: none !important; }
+}
+.card [style*="border-radius: 10px"], .card [style*="border-radius: 12px"], .card [style*="border-radius:10px"], .card [style*="border-radius:12px"] { border-radius: 0 !important; border: 2px solid #D6E6CC !important; }
+.brand-title { text-shadow: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .tab-pane.active, .sidebar-status-dot { animation: none !important; }
 }
 
 `;
