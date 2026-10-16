@@ -1880,7 +1880,13 @@ function renderPageLayout(options) {
   </script>
   <style>
     ${BASE_STYLES}
-  </style>
+  
+/* Readable UI font: keep emoji and Latin names rendered by the system fallback. */
+body, button, input, select, textarea, table, .card, .nav-btn, .badge, h1, h2, h3, h4, label {
+  font-family: "Segoe UI", Arial, "Noto Sans", sans-serif !important;
+}
+code, pre, .code-input { font-family: Consolas, "Noto Sans Mono", monospace !important; }
+</style>
 </head>
 <body>
   ${options.content}
@@ -3443,13 +3449,13 @@ function renderDashboardPage(options) {
         <div class="card" style="margin-bottom:16px;">
           <div class="card-title">
             <span>&#x2795;</span>
-            <span>&#x627;&#x641;&#x632;&#x648;&#x62F;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x62C;&#x62F;&#x6CC;&#x62F;</span>
+            <span>Add new user</span>
           </div>
           <p class="card-desc">&#x628;&#x631;&#x627;&#x6CC; &#x647;&#x631; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x6CC;&#x6A9; UUID &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC; &#x648; &#x6CC;&#x6A9; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x62C;&#x62F;&#x627; &#x633;&#x627;&#x62E;&#x62A;&#x647; &#x645;&#x6CC;&#x200C;&#x634;&#x648;&#x62F;. &#x628;&#x627; &#x62D;&#x630;&#x641; &#x6A9;&#x627;&#x631;&#x628;&#x631;&#x60C; UUID &#x648; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x648; &#x627;&#x632; &#x6A9;&#x627;&#x631; &#x645;&#x6CC;&#x200C;&#x627;&#x641;&#x62A;&#x62F;.</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <input id="hexUserName" class="form-control" placeholder="&#x646;&#x627;&#x645; &#x6A9;&#x627;&#x631;&#x628;&#x631; (&#x645;&#x62B;&#x644;&#x627;&#x64B; Alireza)" style="flex:2; min-width:180px;" />
+            <input id="hexUserName" class="form-control" placeholder="Username (for example: Alireza)" style="flex:2; min-width:180px;" />
 
-            <button type="button" class="btn btn-primary" onclick="hexAddUserRow()">&#x627;&#x641;&#x632;&#x648;&#x62F;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; +</button>
+            <button type="button" class="btn btn-primary" onclick="hexAddUserRow()">Add user +</button>
           </div>
         </div>
 
@@ -3457,20 +3463,20 @@ function renderDashboardPage(options) {
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
             <div class="card-title" style="margin-bottom:0;">
               <span>&#x1F465;</span>
-              <span>&#x644;&#x6CC;&#x633;&#x62A; &#x6A9;&#x627;&#x631;&#x628;&#x631;&#x627;&#x646;</span>
-              <span id="hexUserCount" class="badge badge-sky" style="margin-left:6px;">0 &#x6A9;&#x627;&#x631;&#x628;&#x631;</span>
+              <span>User list</span>
+              <span id="hexUserCount" class="badge badge-sky" style="margin-left:6px;">0 users</span>
             </div>
-            <span class="badge badge-mint">&#x630;&#x62E;&#x6CC;&#x631;&#x647;&#x200C;&#x6CC; &#x62F;&#x627;&#x626;&#x645;&#x6CC; (D1) &#xB7; &#x628;&#x62F;&#x648;&#x646; &#x627;&#x646;&#x642;&#x636;&#x627;</span>
+            <span class="badge badge-mint">Persistent storage (D1) Â· No expiry</span>
           </div>
           <p class="card-desc">&#x647;&#x631; &#x6A9;&#x627;&#x631;&#x628;&#x631; UUID &#x648; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC; &#x62F;&#x627;&#x631;&#x62F; &#x648; &#x6A9;&#x627;&#x646;&#x641;&#x6CC;&#x6AF;&#x200C;&#x647;&#x627; &#x62F;&#x631; &#x6A9;&#x644;&#x627;&#x6CC;&#x646;&#x62A; &#x628;&#x627; &#x646;&#x627;&#x645; &#x648; &#x67E;&#x631;&#x686;&#x645; &#x647;&#x645;&#x627;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x646;&#x645;&#x627;&#x6CC;&#x634; &#x62F;&#x627;&#x62F;&#x647; &#x645;&#x6CC;&#x200C;&#x634;&#x648;&#x646;&#x62F;. &#xAB;&#x62A;&#x648;&#x6A9;&#x646; &#x62C;&#x62F;&#x6CC;&#x62F;&#xBB; &#x641;&#x642;&#x637; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x631;&#x627; &#x639;&#x648;&#x636; &#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F; &#x648; &#xAB;UUID &#x62C;&#x62F;&#x6CC;&#x62F;&#xBB; UUID &#x627;&#x62A;&#x635;&#x627;&#x644; &#x631;&#x627; &#x639;&#x648;&#x636; &#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F; (&#x6A9;&#x627;&#x646;&#x641;&#x6CC;&#x6AF; &#x642;&#x628;&#x644;&#x6CC; &#x6A9;&#x627;&#x631; &#x646;&#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F;).</p>
           <div style="overflow-x:auto;">
             <table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
               <thead>
                 <tr style="border-bottom:1.5px solid var(--theme-border); color:var(--theme-text-muted); font-family:'Quicksand',sans-serif;">
-                  <th style="padding:8px 10px;">&#x646;&#x627;&#x645; + &#x67E;&#x631;&#x686;&#x645;</th>
+                  <th style="padding:8px 10px;">Name</th>
                      <th style="padding:8px 10px;">UUID</th>
                   <th style="padding:8px 10px;">&#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC;</th>
-                  <th style="padding:8px 10px; text-align:right;">&#x639;&#x645;&#x644;&#x6CC;&#x627;&#x62A;</th>
+                  <th style="padding:8px 10px; text-align:right;">Actions</th>
                 </tr>
               </thead>
               <tbody id="hexUserTableBody">
@@ -3493,12 +3499,17 @@ function renderDashboardPage(options) {
     var HEX_FORMATS = [["xray","Xray / v2rayN / Hiddify"],["clash","Clash.Meta"],["singbox","Sing-box"],["vless","VLESS (plain)"],["trojan","Trojan (plain)"]];
     var hexUsers = [];
     var hexFmt = "xray";
+    function hexDecoratedName(name){
+      var clean = String(name || "").replace(/[\-\u001f]/g, "").trim();
+      clean = clean.replace(/^[^\p{L}\p{N}_-]+/u, "").replace(/[^\p{L}\p{N}_-]+$/u, "").trim().slice(0, 60);
+      return "ðŸ¦–ðŸŒµ" + (clean ? " " + clean + " " : " ") + "ðŸ¦–ðŸŒµ";
+    }
     function hexFlag(code){ return HEX_FLAGS[(code||"").toLowerCase()] || "\u{1F3F3}\u{FE0F}"; }
     function hexSubUrl(u, fmt){ return location.origin + "/sub/" + fmt + "?token=" + encodeURIComponent(u.token || ""); }
     function hexRenderUsers(){
       var tbody = document.getElementById("hexUserTableBody");
       var cnt = document.getElementById("hexUserCount");
-      if (cnt) cnt.textContent = hexUsers.length + " \u{6A9}\u{627}\u{631}\u{628}\u{631}";
+      if (cnt) cnt.textContent = hexUsers.length + (hexUsers.length === 1 ? " user" : " users");
       if (!tbody) return;
       tbody.innerHTML = "";
       if (!hexUsers.length) {
@@ -3506,7 +3517,7 @@ function renderDashboardPage(options) {
         var ec = document.createElement("td");
         ec.colSpan = 4;
         ec.style.cssText = "padding:14px; text-align:center; color:var(--theme-text-muted);";
-        ec.textContent = "\u{647}\u{646}\u{648}\u{632} \u{6A9}\u{627}\u{631}\u{628}\u{631}\u{6CC} \u{627}\u{636}\u{627}\u{641}\u{647} \u{646}\u{634}\u{62F}\u{647} \u{627}\u{633}\u{62A}";
+        ec.textContent = "No users added yet";
         er.appendChild(ec);
         tbody.appendChild(er);
         return;
@@ -3516,15 +3527,9 @@ function renderDashboardPage(options) {
         tr.style.borderBottom = "1px solid var(--theme-border)";
         var td1 = document.createElement("td");
         td1.style.cssText = "padding:10px; display:flex; align-items:center; gap:8px;";
-        var fl = document.createElement("span");
-        fl.style.fontSize = "18px";
-        fl.textContent = hexFlag(u.cc);
         var nm = document.createElement("strong");
         nm.textContent = u.name;
-        td1.appendChild(fl); td1.appendChild(nm);
-        var td2 = document.createElement("td");
-        td2.style.cssText = "padding:10px; text-transform:uppercase; font-size:12px; color:var(--theme-text-muted);";
-        td2.textContent = u.cc;
+        td1.appendChild(nm);
         var tdU = document.createElement("td");
         tdU.style.cssText = "padding:10px; min-width:270px;";
         var uin = document.createElement("input");
