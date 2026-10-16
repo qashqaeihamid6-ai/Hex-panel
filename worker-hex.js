@@ -2170,7 +2170,7 @@ function renderLoginPage(options) {
       ${defaultHint}
 
       <div style="margin-top: 22px; text-align: center; font-size: 11.5px; color: var(--theme-text-muted);">
-        copy right by Hamid &bull; HEX Panel &bull; Encrypted DNS &amp; Proxy Dashboard
+        HEX Panel &bull; Encrypted DNS &amp; Proxy Dashboard
         <div style="margin-top: 8px;">
           <a href="${APP_CONFIG.telegramChannel}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--theme-primary);">
             <span>\u{1F4E2}</span><span>@HEX_Net on Telegram</span>
@@ -3435,25 +3435,50 @@ function renderDashboardPage(options) {
 
       </section>
 
-      <!-- TAB 8: USERS -->
+      <!-- ====================================================================
+           TAB 8: USERS (add user + list, separate from Settings)
+           ==================================================================== -->
       <section id="tab-users" class="tab-pane ${initialTab === "users" ? "active" : ""}">
-        <div class="card" style="margin-bottom:16px;">
-          <div class="card-title"><span>&#x2795;</span><span>Add new user</span></div>
-          <p class="card-desc">Each user gets a dedicated UUID and subscription link. User names are wrapped with ðŸ¦–ðŸŒµ automatically.</p>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <input id="hexUserName" class="form-control" placeholder="Username (for example: Alireza)" style="flex:2; min-width:180px;" />
 
-            <button type="button" class="btn btn-primary" onclick="hexAddUserRow()">Add user +</button>
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-title">
+            <span>&#x2795;</span>
+            <span>&#x627;&#x641;&#x632;&#x648;&#x62F;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x62C;&#x62F;&#x6CC;&#x62F;</span>
+          </div>
+          <p class="card-desc">&#x628;&#x631;&#x627;&#x6CC; &#x647;&#x631; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x6CC;&#x6A9; UUID &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC; &#x648; &#x6CC;&#x6A9; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x62C;&#x62F;&#x627; &#x633;&#x627;&#x62E;&#x62A;&#x647; &#x645;&#x6CC;&#x200C;&#x634;&#x648;&#x62F;. &#x628;&#x627; &#x62D;&#x630;&#x641; &#x6A9;&#x627;&#x631;&#x628;&#x631;&#x60C; UUID &#x648; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x648; &#x627;&#x632; &#x6A9;&#x627;&#x631; &#x645;&#x6CC;&#x200C;&#x627;&#x641;&#x62A;&#x62F;.</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <input id="hexUserName" class="form-control" placeholder="&#x646;&#x627;&#x645; &#x6A9;&#x627;&#x631;&#x628;&#x631; (&#x645;&#x62B;&#x644;&#x627;&#x64B; Alireza)" style="flex:2; min-width:180px;" />
+
+            <button type="button" class="btn btn-primary" onclick="hexAddUserRow()">&#x627;&#x641;&#x632;&#x648;&#x62F;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; +</button>
           </div>
         </div>
+
         <div class="card">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-            <div class="card-title" style="margin-bottom:0;"><span>&#x1F465;</span><span>User list</span><span id="hexUserCount" class="badge badge-sky" style="margin-left:6px;">0 users</span></div>
-            <span class="badge badge-mint">Persistent storage (D1) Â· No expiry</span>
+            <div class="card-title" style="margin-bottom:0;">
+              <span>&#x1F465;</span>
+              <span>&#x644;&#x6CC;&#x633;&#x62A; &#x6A9;&#x627;&#x631;&#x628;&#x631;&#x627;&#x646;</span>
+              <span id="hexUserCount" class="badge badge-sky" style="margin-left:6px;">0 &#x6A9;&#x627;&#x631;&#x628;&#x631;</span>
+            </div>
+            <span class="badge badge-mint">&#x630;&#x62E;&#x6CC;&#x631;&#x647;&#x200C;&#x6CC; &#x62F;&#x627;&#x626;&#x645;&#x6CC; (D1) &#xB7; &#x628;&#x62F;&#x648;&#x646; &#x627;&#x646;&#x642;&#x636;&#x627;</span>
           </div>
-          <p class="card-desc">Every user has a UUID and a dedicated subscription link.</p>
-          <div style="overflow-x:auto;"><table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;"><thead><tr style="border-bottom:1.5px solid var(--theme-border); color:var(--theme-text-muted); font-family:'Quicksand',sans-serif;"><th style="padding:8px 10px;">Name</th><th style="padding:8px 10px;">Country</th><th style="padding:8px 10px;">UUID</th><th style="padding:8px 10px;">Subscription link</th><th style="padding:8px 10px; text-align:right;">Actions</th></tr></thead><tbody id="hexUserTableBody"></tbody></table></div>
+          <p class="card-desc">&#x647;&#x631; &#x6A9;&#x627;&#x631;&#x628;&#x631; UUID &#x648; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC; &#x62F;&#x627;&#x631;&#x62F; &#x648; &#x6A9;&#x627;&#x646;&#x641;&#x6CC;&#x6AF;&#x200C;&#x647;&#x627; &#x62F;&#x631; &#x6A9;&#x644;&#x627;&#x6CC;&#x646;&#x62A; &#x628;&#x627; &#x646;&#x627;&#x645; &#x648; &#x67E;&#x631;&#x686;&#x645; &#x647;&#x645;&#x627;&#x646; &#x6A9;&#x627;&#x631;&#x628;&#x631; &#x646;&#x645;&#x627;&#x6CC;&#x634; &#x62F;&#x627;&#x62F;&#x647; &#x645;&#x6CC;&#x200C;&#x634;&#x648;&#x646;&#x62F;. &#xAB;&#x62A;&#x648;&#x6A9;&#x646; &#x62C;&#x62F;&#x6CC;&#x62F;&#xBB; &#x641;&#x642;&#x637; &#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x631;&#x627; &#x639;&#x648;&#x636; &#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F; &#x648; &#xAB;UUID &#x62C;&#x62F;&#x6CC;&#x62F;&#xBB; UUID &#x627;&#x62A;&#x635;&#x627;&#x644; &#x631;&#x627; &#x639;&#x648;&#x636; &#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F; (&#x6A9;&#x627;&#x646;&#x641;&#x6CC;&#x6AF; &#x642;&#x628;&#x644;&#x6CC; &#x6A9;&#x627;&#x631; &#x646;&#x645;&#x6CC;&#x200C;&#x6A9;&#x646;&#x62F;).</p>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; text-align:left; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:1.5px solid var(--theme-border); color:var(--theme-text-muted); font-family:'Quicksand',sans-serif;">
+                  <th style="padding:8px 10px;">&#x646;&#x627;&#x645; + &#x67E;&#x631;&#x686;&#x645;</th>
+                     <th style="padding:8px 10px;">UUID</th>
+                  <th style="padding:8px 10px;">&#x644;&#x6CC;&#x646;&#x6A9; &#x627;&#x634;&#x62A;&#x631;&#x627;&#x6A9; &#x627;&#x62E;&#x62A;&#x635;&#x627;&#x635;&#x6CC;</th>
+                  <th style="padding:8px 10px; text-align:right;">&#x639;&#x645;&#x644;&#x6CC;&#x627;&#x62A;</th>
+                </tr>
+              </thead>
+              <tbody id="hexUserTableBody">
+              </tbody>
+            </table>
+          </div>
         </div>
+
       </section>
 
 
@@ -3464,12 +3489,6 @@ function renderDashboardPage(options) {
 
     // HEX \u{2014} Users (persistent via D1, per-user subscription link).
     // NOTE: this code is inside a server-side template string: no backticks, dollar-brace or backslashes here.
-    var HEX_NAME_PREFIX = "ðŸ¦–ðŸŒµ";
-    function hexDecoratedName(name){
-      var clean = String(name || "").replace(/^[ðŸ¦–ðŸŒµ\s]+|[ðŸ¦–ðŸŒµ\s]+$/g, "").trim();
-      return HEX_NAME_PREFIX + (clean ? " " + clean + " " : " ") + HEX_NAME_PREFIX;
-    }
-
     var HEX_FLAGS = { de:"\u{1F1E9}\u{1F1EA}", us:"\u{1F1FA}\u{1F1F8}", ir:"\u{1F1EE}\u{1F1F7}", tr:"\u{1F1F9}\u{1F1F7}", nl:"\u{1F1F3}\u{1F1F1}", gb:"\u{1F1EC}\u{1F1E7}", fr:"\u{1F1EB}\u{1F1F7}", ca:"\u{1F1E8}\u{1F1E6}", ae:"\u{1F1E6}\u{1F1EA}", sg:"\u{1F1F8}\u{1F1EC}", jp:"\u{1F1EF}\u{1F1F5}", se:"\u{1F1F8}\u{1F1EA}", ru:"\u{1F1F7}\u{1F1FA}" };
     var HEX_FORMATS = [["xray","Xray / v2rayN / Hiddify"],["clash","Clash.Meta"],["singbox","Sing-box"],["vless","VLESS (plain)"],["trojan","Trojan (plain)"]];
     var hexUsers = [];
@@ -3479,7 +3498,7 @@ function renderDashboardPage(options) {
     function hexRenderUsers(){
       var tbody = document.getElementById("hexUserTableBody");
       var cnt = document.getElementById("hexUserCount");
-      if (cnt) cnt.textContent = hexUsers.length + (hexUsers.length === 1 ? " user" : " users");
+      if (cnt) cnt.textContent = hexUsers.length + " \u{6A9}\u{627}\u{631}\u{628}\u{631}";
       if (!tbody) return;
       tbody.innerHTML = "";
       if (!hexUsers.length) {
@@ -3487,7 +3506,7 @@ function renderDashboardPage(options) {
         var ec = document.createElement("td");
         ec.colSpan = 4;
         ec.style.cssText = "padding:14px; text-align:center; color:var(--theme-text-muted);";
-        ec.textContent = "No users added yet";
+        ec.textContent = "\u{647}\u{646}\u{648}\u{632} \u{6A9}\u{627}\u{631}\u{628}\u{631}\u{6CC} \u{627}\u{636}\u{627}\u{641}\u{647} \u{646}\u{634}\u{62F}\u{647} \u{627}\u{633}\u{62A}";
         er.appendChild(ec);
         tbody.appendChild(er);
         return;
@@ -3501,7 +3520,7 @@ function renderDashboardPage(options) {
         fl.style.fontSize = "18px";
         fl.textContent = hexFlag(u.cc);
         var nm = document.createElement("strong");
-        nm.textContent = hexDecoratedName(u.name);
+        nm.textContent = u.name;
         td1.appendChild(fl); td1.appendChild(nm);
         var td2 = document.createElement("td");
         td2.style.cssText = "padding:10px; text-transform:uppercase; font-size:12px; color:var(--theme-text-muted);";
@@ -3517,7 +3536,7 @@ function renderDashboardPage(options) {
         ucp.type = "button";
         ucp.className = "btn btn-primary btn-sm";
         ucp.style.marginTop = "6px";
-        ucp.textContent = "Copy UUID";
+        ucp.textContent = "\u{6A9}\u{67E}\u{6CC} UUID";
         ucp.onclick = function(){ copyToClipboard(uin.value); };
         tdU.appendChild(uin); tdU.appendChild(ucp);
         var tdL = document.createElement("td");
@@ -3542,7 +3561,7 @@ function renderDashboardPage(options) {
         cp.type = "button";
         cp.className = "btn btn-primary btn-sm";
         cp.style.marginTop = "6px";
-        cp.textContent = "Copy link";
+        cp.textContent = "\u{6A9}\u{67E}\u{6CC} \u{644}\u{6CC}\u{646}\u{6A9}";
         cp.onclick = function(){ copyToClipboard(inp.value); };
         tdL.appendChild(sel); tdL.appendChild(inp); tdL.appendChild(cp);
         var td3 = document.createElement("td");
@@ -3551,18 +3570,18 @@ function renderDashboardPage(options) {
         rg.type = "button";
         rg.className = "btn btn-secondary btn-sm";
         rg.style.marginRight = "6px";
-        rg.textContent = "New token";
+        rg.textContent = "\u{62A}\u{648}\u{6A9}\u{646} \u{62C}\u{62F}\u{6CC}\u{62F}";
         rg.onclick = function(){ hexRegenUser(u.id); };
         var del = document.createElement("button");
         del.type = "button";
         del.className = "btn btn-secondary btn-sm";
-        del.textContent = "Delete";
+        del.textContent = "\u{62D}\u{630}\u{641}";
         del.onclick = function(){ hexDelUser(u.id); };
         var rgu = document.createElement("button");
         rgu.type = "button";
         rgu.className = "btn btn-secondary btn-sm";
         rgu.style.marginRight = "6px";
-        rgu.textContent = "New UUID";
+        rgu.textContent = "UUID \u{62C}\u{62F}\u{6CC}\u{62F}";
         rgu.onclick = function(){ hexRegenUuid(u.id); };
         td3.appendChild(rg); td3.appendChild(rgu); td3.appendChild(del);
         tr.appendChild(td1); tr.appendChild(tdU); tr.appendChild(tdL); tr.appendChild(td3);
@@ -3605,7 +3624,7 @@ function renderDashboardPage(options) {
       hexUsers.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name: hexDecoratedName(name.slice(0, 60)), cc: cc });
       nameEl.value = "";
       hexRenderUsers();
-      hexSaveUsers().then(function(){ showToast("\u{6A9}\u{627}\u{631}\u{628}\u{631} \u{630}\u{62E}\u{6CC}\u{631}\u{647} \u{634}\u{62F}: " + name + " " + hexFlag(cc)); });
+      hexSaveUsers().then(function(){ showToast("\u{6A9}\u{627}\u{631}\u{628}\u{631} \u{630}\u{62E}\u{6CC}\u{631}\u{647} \u{634}\u{62F}: " + name); });
     }
     function hexDelUser(id){
       if (!confirm("\u{627}\u{6CC}\u{646} \u{6A9}\u{627}\u{631}\u{628}\u{631} \u{62D}\u{630}\u{641} \u{634}\u{648}\u{62F}\u{61F} \u{644}\u{6CC}\u{646}\u{6A9} \u{627}\u{634}\u{62A}\u{631}\u{627}\u{6A9} \u{627}\u{648} \u{627}\u{632} \u{6A9}\u{627}\u{631} \u{645}\u{6CC}\u{200C}\u{627}\u{641}\u{62A}\u{62F}.")) return;
@@ -3999,6 +4018,13 @@ function generateRandomToken2(length = 24) {
   return result;
 }
 const HEX_USERS_KEY = "hex:users";
+const HEX_NAME_PREFIX = "\u{1F997}\u{1F335}";
+function hexDecoratedName(name) {
+  let clean = String(name || "").replace(/[\-\u001f]/g, "").trim();
+  clean = clean.replace(/^[^\p{L}\p{N}_\-]+/u, "").replace(/[^\p{L}\p{N}_\-]+$/u, "").trim().slice(0, 60);
+  return HEX_NAME_PREFIX + (clean ? " " + clean + " " : " ") + HEX_NAME_PREFIX;
+}
+
 function hexFlagEmoji(cc) {
   const c = String(cc || "").toUpperCase();
   if (!/^[A-Z]{2}$/.test(c)) return "\u{1F3F3}\uFE0F";
@@ -4049,11 +4075,6 @@ async function getAllowedVlessUuids(env2, settings) {
   }
   hexUuidCache = { at: now, list };
   return list;
-}
-var HEX_NAME_PREFIX = "ðŸ¦–ðŸŒµ";
-function hexDecoratedName(name) {
-  const clean = String(name || "").replace(/^[ðŸ¦–ðŸŒµ\s]+|[ðŸ¦–ðŸŒµ\s]+$/g, "").trim().slice(0, 60);
-  return HEX_NAME_PREFIX + (clean ? " " + clean + " " : " ") + HEX_NAME_PREFIX;
 }
 function hexNewUserToken() {
   return [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
@@ -4118,9 +4139,9 @@ async function handleHexUsersApi(request, env2) {
         let id = String(u && u.id || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 40) || crypto.randomUUID();
         if (seen.has(id)) id = crypto.randomUUID();
         seen.add(id);
-         const name = hexDecoratedName(String(u && u.name || "").replace(/[\-\u001f]/g, "").trim());
+         const name = hexDecoratedName(String(u && u.name || "").trim());
         if (!name) continue;
-        const cc = String(u && u.cc || "").toLowerCase().replace(/[^a-z]/g, "").slice(0, 2);
+        const cc = "";
         let token = tokenById.get(id);
         if (!token || (u && u.regen === true)) token = hexNewUserToken();
         let uuid = uuidById.get(id);
@@ -4701,7 +4722,7 @@ async function handleSubscription(pathname, request, env2) {
   }
   const vlessAuthUuid = subUser && subUser.uuid ? subUser.uuid : settings.vlessUuid;
   const trojanAuthPass = subUser && subUser.uuid ? hexUserTrojanPass(subUser.uuid) : settings.trojanPassword;
-  const profileTitleHeader = subUser ? { "Profile-Title": "base64:" + hexB64Utf8(hexFlagEmoji(subUser.cc) + " " + hexSafeLabel(subUser.name)) } : {};
+  const profileTitleHeader = subUser ? { "Profile-Title": "base64:" + hexB64Utf8(hexDecoratedName(subUser.name)) } : {};
   if (!isAuthorized) {
     return new Response(
       JSON.stringify(
@@ -4743,7 +4764,7 @@ async function handleSubscription(pathname, request, env2) {
     const { hostname: address, port } = parseHostPort(entry, 443);
     return { port, address, host: workerHost, sni: workerHost, suffix: `StaticIP-${index + 1}` };
   }));
-  const userPrefix = subUser ? hexFlagEmoji(subUser.cc) + " " + hexSafeLabel(subUser.name) : "";
+  const userPrefix = subUser ? hexDecoratedName(subUser.name) : "";
   const cfgName = (_kind, _suffix) => subUser ? userPrefix : "HEX";
   const warpTag = subUser ? `${userPrefix} | Warp` : "HEX-Warp";
   const uriAddress = (address) => address.includes(":") && !address.startsWith("[") ? `[${address}]` : address;
@@ -10709,10 +10730,10 @@ body::after {
     linear-gradient(90deg, #3B7A23 0 8px, #4E9A30 8px 24px, #2F661B 24px 32px) 0 8px / 32px 18px repeat-x !important;
 }
 
-h1, h2, h3, h4 { font-family: var(--mc-font-pixel) !important; font-weight: 700 !important; color: var(--mc-ink) !important; letter-spacing: .3px; }
+h1, h2, h3, h4 { font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; font-weight: 700 !important; color: var(--mc-ink) !important; letter-spacing: .3px; }
 #page-heading { background: none !important; -webkit-text-fill-color: var(--mc-ink) !important; color: var(--mc-ink) !important; font-size: 20px !important; }
 #page-subheading { font-family: 'Nunito', 'Vazirmatn', sans-serif !important; }
-.brand-title { font-family: var(--mc-font-title) !important; font-size: 14px !important; line-height: 1.5 !important; color: var(--mc-grass-hi) !important; letter-spacing: 1px !important; text-shadow: 0 2px 0 var(--mc-grass), 0 4px 0 var(--mc-ink) !important; }
+.brand-title { font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; font-size: 14px !important; line-height: 1.5 !important; color: var(--mc-grass-hi) !important; letter-spacing: 1px !important; text-shadow: 0 2px 0 var(--mc-grass), 0 4px 0 var(--mc-ink) !important; }
 a { color: var(--theme-primary); }
 
 /* ---------- Floating grass-block mascot (like a dropped item) ---------- */
@@ -10738,7 +10759,7 @@ a { color: var(--theme-primary); }
 }
 .card-primary { background: var(--mc-drip), #FFFFFF !important; border-top: 3px solid var(--mc-ink) !important; }
 .card > div[style*="position: absolute; top: 0"] { display: none !important; }
-.card-title { font-family: var(--mc-font-pixel) !important; font-size: 19px !important; font-weight: 600 !important; color: var(--mc-ink) !important; letter-spacing: .3px !important; }
+.card-title { font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; font-size: 19px !important; font-weight: 600 !important; color: var(--mc-ink) !important; letter-spacing: .3px !important; }
 .card-title > span:first-child {
   border-radius: 0 !important;
   width: 36px !important; height: 36px !important;
@@ -10786,12 +10807,12 @@ a { color: var(--theme-primary); }
 .app-sidebar::after { display: none !important; }
 .sidebar-brand { padding-top: 8px !important; }
 .sidebar-brand, .sidebar-footer { border-color: var(--mc-line) !important; }
-.nav-section { color: var(--theme-text-muted) !important; font-family: var(--mc-font-pixel) !important; letter-spacing: 1.5px !important; font-size: 12px !important; }
+.nav-section { color: var(--theme-text-muted) !important; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; letter-spacing: 1.5px !important; font-size: 12px !important; }
 .nav-section::after { background: repeating-linear-gradient(90deg, var(--mc-line) 0 6px, transparent 6px 10px) !important; height: 2px !important; }
 .nav-btn {
   border-radius: 0 !important;
   border: 2px solid transparent !important;
-  font-family: var(--mc-font-pixel) !important;
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important;
   font-weight: 600 !important;
   font-size: 15px !important;
   color: var(--mc-ink) !important;
@@ -10810,7 +10831,7 @@ a { color: var(--theme-primary); }
 .nav-btn.active::before { display: none !important; }
 .nav-btn .nav-icon, .nav-icon { border-radius: 0 !important; background: var(--mc-tint2) !important; border: 2px solid var(--mc-line) !important; box-shadow: var(--mc-slot) !important; transition: transform .1s steps(2) !important; }
 .nav-btn.active .nav-icon { background: rgba(255,255,255,0.25) !important; border-color: rgba(255,255,255,0.6) !important; box-shadow: none !important; }
-.nav-tag { border-radius: 0 !important; background: var(--mc-ink) !important; color: #FFFFFF !important; border: none !important; font-family: var(--mc-font-pixel) !important; text-shadow: 1px 1px 0 #000; }
+.nav-tag { border-radius: 0 !important; background: var(--mc-ink) !important; color: #FFFFFF !important; border: none !important; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; text-shadow: 1px 1px 0 #000; }
 .sidebar-status-pill { border-radius: 0 !important; background: var(--mc-tint) !important; border: 2px solid var(--mc-line) !important; box-shadow: none !important; }
 .sidebar-status-dot { border-radius: 0 !important; background: var(--mc-grass) !important; box-shadow: none !important; animation: mcBlink 1.6s steps(1) infinite !important; }
 @keyframes mcBlink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .35; } }
@@ -10852,7 +10873,7 @@ a { color: var(--theme-primary); }
 .btn {
   border-radius: 0 !important;
   border: 3px solid var(--mc-ink) !important;
-  font-family: var(--mc-font-pixel) !important;
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important;
   font-weight: 600 !important;
   font-size: 15px !important;
   letter-spacing: .4px;
@@ -10918,19 +10939,19 @@ a { color: var(--theme-primary); }
   border-color: var(--mc-ink) !important;
   box-shadow: var(--mc-slot), 0 0 0 3px var(--mc-grass-hi) !important;
 }
-.form-label { font-family: var(--mc-font-pixel) !important; font-weight: 600 !important; font-size: 14px !important; color: var(--mc-ink) !important; }
+.form-label { font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; font-weight: 600 !important; font-size: 14px !important; color: var(--mc-ink) !important; }
 input[type="checkbox"], input[type="radio"] { accent-color: var(--mc-grass) !important; }
 select option { background: #FFFFFF; color: var(--mc-ink); }
 select:focus-visible, input:focus-visible, textarea:focus-visible, .btn:focus-visible, .nav-btn:focus-visible { outline: 3px solid var(--mc-ink) !important; outline-offset: 2px !important; }
 
 /* ---------- Badges: item tags ---------- */
-.badge { border-radius: 0 !important; backdrop-filter: none !important; box-shadow: inset -2px -2px 0 rgba(30,58,20,0.12) !important; font-family: var(--mc-font-pixel) !important; font-weight: 600 !important; border: 2px solid currentColor !important; }
+.badge { border-radius: 0 !important; backdrop-filter: none !important; box-shadow: inset -2px -2px 0 rgba(30,58,20,0.12) !important; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; font-weight: 600 !important; border: 2px solid currentColor !important; }
 .badge-mint, .badge-sky, .badge-lavender { background: #E3F4D8 !important; color: #2F661B !important; }
 .badge-sakura { background: #FDE8E6 !important; color: #A1271B !important; }
 .badge-amber { background: #FFF4CC !important; color: #7A5A00 !important; }
 
 /* ---------- Tables ---------- */
-table thead tr { font-family: var(--mc-font-pixel) !important; color: var(--theme-text-muted) !important; border-bottom: 3px solid var(--mc-ink) !important; }
+table thead tr { font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important; color: var(--theme-text-muted) !important; border-bottom: 3px solid var(--mc-ink) !important; }
 table tbody tr { border-bottom: 2px dashed var(--mc-line) !important; }
 table tbody tr:hover { background: var(--mc-tint) !important; }
 
@@ -10957,7 +10978,7 @@ table tbody tr:hover { background: var(--mc-tint) !important; }
 }
 .toast-msg::before {
   content: "Advancement Made!";
-  font-family: var(--mc-font-pixel);
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
   font-weight: 700;
   font-size: 15px;
   color: var(--mc-grass-lo);
@@ -10979,7 +11000,7 @@ table tbody tr:hover { background: var(--mc-tint) !important; }
 .mc-logo {
   position: relative;
   display: inline-block;
-  font-family: var(--mc-font-title) !important;
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif !important;
   font-size: 46px !important;
   line-height: 1 !important;
   letter-spacing: 4px !important;
@@ -10993,7 +11014,7 @@ table tbody tr:hover { background: var(--mc-tint) !important; }
   inset-inline-start: 100%;
   margin-inline-start: -22px;
   white-space: nowrap;
-  font-family: var(--mc-font-title);
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
   font-size: 12px;
   letter-spacing: 0;
   color: var(--mc-splash);
