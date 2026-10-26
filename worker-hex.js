@@ -133,7 +133,7 @@ function normalizeDns(input = {}) {
   return p;
 }
 function validateDoh(value) {
-  if (value && parseResolver(value).type !== "https") throw new Error("The panel DNS gateway requires an HTTPS DoH URL. Configure other transports under Client DNS.");
+  if (value && parseResolver(value).type !== "https") throw new Error("The dashboard DNS gateway requires an HTTPS DoH URL. Configure other transports under Client DNS.");
   return value;
 }
 function readDns(stored) {
@@ -190,9 +190,9 @@ var html = (v) => String(v).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&l
 function dnsControls(p) {
   const select = (k, label, options) => `<div class="form-group"><label class="form-label" for="clientDns_${k}">${label}</label><select class="form-control" id="clientDns_${k}" name="clientDns_${k}">${options.map(([v, t]) => `<option value="${v}" ${p[k] === v ? "selected" : ""}>${t}</option>`).join("")}</select></div>`;
   const field = (k, label, hint, area = false) => `<div class="form-group"><label class="form-label" for="clientDns_${k}">${label}</label>${area ? `<textarea rows="3"` : '<input type="text"'} class="form-control code-input" id="clientDns_${k}" name="clientDns_${k}" ${area ? `>${html(p[k])}</textarea>` : `value="${html(p[k])}" />`}<p class="card-desc">${hint}</p></div>`;
-  return `<div class="card" style="margin-bottom:20px"><div class="card-title">Client DNS &amp; site routing</div><p class="card-desc">Applies to full Mihomo/Clash, Sing-box and Xray JSON subscriptions. Individual VLESS/Trojan/SS links cannot carry these settings; native-only profiles use their own DNS settings. Fake IP needs TUN or client DNS interception. It preserves domain names for routing, but does not change the country or reputation of your exit IP.</p><p class="card-desc">Xray exposes DNS at 127.0.0.1:1053. Enable VPN/TUN in your Xray client app. For h3 resolver URLs, Xray uses HTTPS over TCP at the same endpoint, which must support ordinary DoH. QUIC DNS connects directly; TLS DNS uses a verified TLS connection.</p><form action="/panel/settings/protocols" method="POST"><input type="hidden" name="clientDnsSettings" value="1" />
+  return `<div class="card" style="margin-bottom:20px"><div class="card-title">Client DNS &amp; site routing</div><p class="card-desc">Applies to full Mihomo/Clash, Sing-box and Xray JSON subscriptions. Individual VLESS/Trojan/SS links cannot carry these settings; native-only profiles use their own DNS settings. Fake IP needs TUN or client DNS interception. It preserves domain names for routing, but does not change the country or reputation of your exit IP.</p><p class="card-desc">Xray exposes DNS at 127.0.0.1:1053. Enable VPN/TUN in your Xray client app. For h3 resolver URLs, Xray uses HTTPS over TCP at the same endpoint, which must support ordinary DoH. QUIC DNS connects directly; TLS DNS uses a verified TLS connection.</p><form action="/telemetry-dashboard/settings/protocols" method="POST"><input type="hidden" name="clientDnsSettings" value="1" />
   ${select("mode", "DNS answer mode", [["real", "Real IP"], ["fake-ip", "Fake IP (Fake DNS)"]])}
-  ${field("resolver", "Client DNS resolver", "Use panel, https://1.1.1.1/dns-query, tls://1.1.1.1, tcp://1.1.1.1, udp://1.1.1.1, quic://dns.adguard-dns.com or h3://dns.google/dns-query. The resolver must support the selected transport.")}
+  ${field("resolver", "Client DNS resolver", "Use the built-in dashboard resolver (value: panel), https://1.1.1.1/dns-query, tls://1.1.1.1, tcp://1.1.1.1, udp://1.1.1.1, quic://dns.adguard-dns.com or h3://dns.google/dns-query. The resolver must support the selected transport.")}
   ${select("route", "DNS connection route", [["direct", "Direct from device"], ["proxy", "Through selected proxy (HTTPS / TLS / TCP)"]])}
   ${field("bootstrap", "Bootstrap DNS IP", "Resolves proxy and resolver hostnames directly to avoid DNS loops. Use an address reachable from your device.")}
   ${["ipv6", "tun", "blockQuic"].map((k, i) => `<label style="display:block;margin:12px 0"><input type="checkbox" name="clientDns_${k}" ${p[k] ? "checked" : ""} /> ${["Enable IPv6 DNS answers", "Enable TUN for Mihomo/Sing-box (requires client VPN/admin permission)", "Reject UDP port 443 to encourage HTTPS over TCP"][i]}</label>`).join("")}
@@ -200,8 +200,8 @@ function dnsControls(p) {
   ${field("domains", "Domains using a separate resolver", "Domain suffixes, one per line. Overrides Fake IP for these domains. Useful with a trusted Smart DNS service; access depends on that service.", true)}
   ${field("domainResolver", "Resolver for those domains", "Same URL formats as the main resolver. Uses the DNS connection route selected above.")}
   ${field("forceProxy", "Always send these domains through the selected proxy", "Domain suffixes, one per line, applied before country bypass rules. For Google services you can include google.com, googleapis.com and gstatic.com. Choose a working proxy in your client; selecting DIRECT still connects directly.", true)}
-  ${field("gatewayFallbacks", "Panel gateway fallback resolvers", "Optional HTTPS DoH URLs, one per line (maximum three). The panel retries these in order if its primary upstream times out, fails to connect or returns an HTTP error. Queries may be sent to these providers. Applies to /dns-query and /dns-json.", true)}
-  <p class="card-desc">For IP-based regional blocks, configure a tested external exit under Routing &amp; Chain. The panel gateway below accepts HTTPS DoH upstreams; other DNS transports run in your client. Browser-specific Secure DNS may bypass client DNS policies.</p><button class="btn btn-primary" type="submit">Save client DNS &amp; routing</button></form></div>`;
+  ${field("gatewayFallbacks", "Dashboard gateway fallback resolvers", "Optional HTTPS DoH URLs, one per line (maximum three). The dashboard retries these in order if its primary upstream times out, fails to connect or returns an HTTP error. Queries may be sent to these providers. Applies to /dns-query and /dns-json.", true)}
+  <p class="card-desc">For IP-based regional blocks, configure a tested external exit under Routing &amp; Chain. The dashboard gateway below accepts HTTPS DoH upstreams; other DNS transports run in your client. Browser-specific Secure DNS may bypass client DNS policies.</p><button class="btn btn-primary" type="submit">Save client DNS &amp; routing</button></form></div>`;
 }
 
 // lib/dns-fallback.mjs
@@ -1852,7 +1852,7 @@ function renderPageLayout(options) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>${options.title} - HEX Panel</title>
+  <title>${options.title} - Telemetry Dashboard</title>
   <script>
     (function() {
       try {
@@ -2146,9 +2146,9 @@ function renderLoginPage(options) {
 
       ${errorAlert}
 
-      <form action="/panel/login" method="POST">
+      <form action="/telemetry-dashboard/login" method="POST">
         <div class="form-group">
-          <label class="form-label" for="password">Panel Password</label>
+          <label class="form-label" for="password">Dashboard Password</label>
           <input 
             type="password" 
             id="password" 
@@ -2170,7 +2170,7 @@ function renderLoginPage(options) {
       ${defaultHint}
 
       <div style="margin-top: 22px; text-align: center; font-size: 11.5px; color: var(--theme-text-muted);">
-        HEX Panel &bull; Encrypted DNS &amp; Proxy Dashboard
+        Telemetry Dashboard &bull; Encrypted DNS &amp; Proxy Dashboard
         <div style="margin-top: 8px;">
           <a href="${APP_CONFIG.telegramChannel}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--theme-primary);">
             <span>\u{1F4E2}</span><span>@HEX_Net on Telegram</span>
@@ -2217,7 +2217,7 @@ function renderSetupPage(options) {
         <span>\u{1F4A1} <strong>Private D1 Storage:</strong> Password is stored in your private D1 database (<code>D1</code> binding).</span>
       </div>
 
-      <form action="/panel/setup" method="POST">
+      <form action="/telemetry-dashboard/setup" method="POST">
         <div class="form-group">
           <label class="form-label" for="password">Create Password</label>
           <input 
@@ -2254,7 +2254,7 @@ function renderSetupPage(options) {
       </form>
 
       <div style="margin-top: 22px; text-align: center; font-size: 11.5px; color: var(--theme-text-muted);">
-        HEX Panel &bull; Encrypted DNS &amp; Proxy Dashboard
+        Telemetry Dashboard &bull; Encrypted DNS &amp; Proxy Dashboard
         <div style="margin-top: 8px;">
           <a href="${APP_CONFIG.telegramChannel}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--theme-primary);">
             <span>\u{1F4E2}</span><span>@HEX_Net on Telegram</span>
@@ -2277,9 +2277,9 @@ async function handleSetup(request, env2) {
     const cookies = parseCookies(request);
     const existingToken = cookies[APP_CONFIG.cookieName];
     if (existingToken && await verifySessionToken(existingToken, env2)) {
-      return Response.redirect(`${url.origin}/panel`, 302);
+      return Response.redirect(`${url.origin}/telemetry-dashboard`, 302);
     }
-    return Response.redirect(`${url.origin}/panel/login`, 302);
+    return Response.redirect(`${url.origin}/telemetry-dashboard/login`, 302);
   }
   if (request.method === "POST") {
     let password = "";
@@ -2310,7 +2310,7 @@ async function handleSetup(request, env2) {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/panel?setup=success",
+          Location: "/telemetry-dashboard?setup=success",
           "Set-Cookie": cookieHeader
         }
       });
@@ -2343,7 +2343,7 @@ async function handleLogin(request, env2) {
   if (existingToken) {
     const session = await verifySessionToken(existingToken, env2);
     if (session) {
-      return Response.redirect(`${url.origin}/panel`, 302);
+      return Response.redirect(`${url.origin}/telemetry-dashboard`, 302);
     }
   }
   if (request.method === "POST") {
@@ -2364,7 +2364,7 @@ async function handleLogin(request, env2) {
       return new Response(null, {
         status: 302,
         headers: {
-          Location: "/panel?login=success",
+          Location: "/telemetry-dashboard?login=success",
           "Set-Cookie": cookieHeader
         }
       });
@@ -2393,7 +2393,7 @@ function handleLogout(request) {
   return new Response(null, {
     status: 302,
     headers: {
-      Location: "/panel/login",
+      Location: "/telemetry-dashboard/login",
       "Set-Cookie": createClearCookie()
     }
   });
@@ -2407,7 +2407,7 @@ function renderDashboardPage(options) {
         <span style="font-size: 20px;">\u26A0\uFE0F</span>
         <div>
           <strong style="color: #9F1239; font-family: 'Quicksand', sans-serif; font-size: 13.5px;">Default Dev Password Active</strong>
-          <p style="color: #BE123C; font-size: 12px; margin-top: 1px;">Your panel is using the fallback password (<code>${APP_CONFIG.defaultDevPassword}</code>). Please set a secure password in Settings.</p>
+          <p style="color: #BE123C; font-size: 12px; margin-top: 1px;">Your dashboard is using the fallback password (<code>${APP_CONFIG.defaultDevPassword}</code>). Please set a secure password in Settings.</p>
         </div>
       </div>
       <button type="button" onclick="switchTab('settings')" class="btn btn-sm btn-secondary" style="background: #FFFFFF; border-color: #FECDD3; color: #E11D48; white-space: nowrap;">
@@ -2456,7 +2456,7 @@ function renderDashboardPage(options) {
 
         <!-- First-Level Navigation: Dashboard ALWAYS visible at the top! -->
         <nav class="sidebar-nav">
-          <div class="nav-section">Panel</div>
+          <div class="nav-section">Telemetry</div>
           <button type="button" id="nav-overview" onclick="switchTab('overview')" class="nav-btn ${initialTab === "overview" ? "active" : ""}">
             <span class="nav-icon">\u{1F4CA}</span>
             <span>Dashboard</span>
@@ -2515,7 +2515,7 @@ function renderDashboardPage(options) {
           <span class="badge badge-mint" style="font-size: 10px; padding: 2px 6px;">Active</span>
         </div>
 
-        <a href="/panel/logout" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: space-between;">
+        <a href="/telemetry-dashboard/logout" class="btn btn-secondary btn-sm" style="width: 100%; justify-content: space-between;">
           <span>Log out</span>
           <span>\u{1F6AA}</span>
         </a>
@@ -2938,7 +2938,7 @@ function renderDashboardPage(options) {
            ==================================================================== -->
       <section id="tab-protocols" class="tab-pane ${initialTab === "protocols" ? "active" : ""}">
         
-        <form action="/panel/settings/protocols" method="POST">
+        <form action="/telemetry-dashboard/settings/protocols" method="POST">
           <div class="grid-2col" style="margin-bottom: 16px;">
             
             <!-- Card 1: Inbound Transport & Client Credentials -->
@@ -3103,7 +3103,7 @@ function renderDashboardPage(options) {
             <div class="card">
               <div class="card-title">Native protocol servers</div>
               <p class="card-desc">Shadowsocks, ShadowTLS, AnyTLS, Hysteria2, TUIC and OpenVPN use the native deployment. Manage their credentials in that deployment and download client profiles from Subscriptions.</p>
-              <a class="btn btn-secondary" href="/panel/settings/subscriptions">Open native subscriptions</a>
+              <a class="btn btn-secondary" href="/telemetry-dashboard/settings/subscriptions">Open native subscriptions</a>
             </div>
             <!-- Card 6: XHTTP, HTTP Upgrade & AnyTLS Engine -->
             <div class="card">
@@ -3172,7 +3172,7 @@ function renderDashboardPage(options) {
             </div>
             <p class="card-desc">Select primary upstream DNS-over-HTTPS resolver or configure an arbitrary private DoH / DNS endpoint.</p>
 
-            <form action="/panel/settings/protocols" method="POST">
+            <form action="/telemetry-dashboard/settings/protocols" method="POST">
             <div class="form-group" style="margin-bottom: 14px;">
               <label class="form-label" for="dnsCustom">Custom DoH / DNS Upstream URL (Optional)</label>
               <input type="text" id="dnsCustom" name="dnsCustom" class="form-control code-input" value="${settings.dnsCustom || ""}" placeholder="e.g. https://dns.adguard-dns.com/dns-query or https://dns.alidns.com/dns-query" />
@@ -3238,7 +3238,7 @@ function renderDashboardPage(options) {
            ==================================================================== -->
       <section id="tab-routing" class="tab-pane ${initialTab === "routing" ? "active" : ""}">
         
-        <form action="/panel/settings/protocols" method="POST">
+        <form action="/telemetry-dashboard/settings/protocols" method="POST">
           <div class="grid-2col" style="margin-bottom: 16px;">
             
             <!-- Card 1: Subscription Routing Presets -->
@@ -3361,7 +3361,7 @@ function renderDashboardPage(options) {
             </div>
             <p class="card-desc">Updates your master dashboard password stored securely in Cloudflare D1.</p>
 
-            <form action="/panel/settings/password" method="POST">
+            <form action="/telemetry-dashboard/settings/password" method="POST">
               <div class="form-group">
                 <label class="form-label" for="currentPassword">Current Password</label>
                 <input type="password" id="currentPassword" name="currentPassword" class="form-control" required placeholder="Current password" />
@@ -3398,7 +3398,7 @@ function renderDashboardPage(options) {
                 <input type="text" readonly class="form-control code-input" value="${settings.nodeShareToken}" />
                 <div class="copy-actions">
                   <button type="button" class="btn btn-secondary btn-sm" onclick="copyToClipboard('${settings.nodeShareToken}')">\u{1F4CB} Copy</button>
-                  <form action="/panel/settings/nodeshare/regen" method="POST" style="margin: 0;">
+                  <form action="/telemetry-dashboard/settings/nodeshare/regen" method="POST" style="margin: 0;">
                     <button type="submit" class="btn btn-secondary btn-sm">\u{1F3B2} Regen</button>
                   </form>
                 </div>
@@ -3603,7 +3603,7 @@ function renderDashboardPage(options) {
       });
     }
     function hexLoadUsers(){
-      fetch("/panel/settings/users", { credentials: "same-origin", cache: "no-store" })
+      fetch("/telemetry-dashboard/settings/users", { credentials: "same-origin", cache: "no-store" })
         .then(function(r){ return r.json(); })
         .then(function(d){
           if (d && d.ok) { hexUsers = d.users || []; hexRenderUsers(); }
@@ -3612,7 +3612,7 @@ function renderDashboardPage(options) {
         .catch(function(){ showToast("\u{62E}\u{637}\u{627} \u{62F}\u{631} \u{627}\u{631}\u{62A}\u{628}\u{627}\u{637} \u{628}\u{627} \u{633}\u{631}\u{648}\u{631}"); });
     }
     function hexSaveUsers(){
-      return fetch("/panel/settings/users", {
+      return fetch("/telemetry-dashboard/settings/users", {
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
@@ -4169,27 +4169,27 @@ async function handlePanel(request, env2) {
   const url = new URL(request.url);
   const isConfigured = await hasConfiguredPassword(env2);
   if (!isConfigured) {
-    return Response.redirect(`${url.origin}/panel/setup`, 302);
+    return Response.redirect(`${url.origin}/telemetry-dashboard/setup`, 302);
   }
   const cookies = parseCookies(request);
   const token = cookies[APP_CONFIG.cookieName];
   if (!token) {
-    return Response.redirect(`${url.origin}/panel/login`, 302);
+    return Response.redirect(`${url.origin}/telemetry-dashboard/login`, 302);
   }
   const session = await verifySessionToken(token, env2);
   if (!session) {
     return Response.redirect(
-      `${url.origin}/panel/login?error=${encodeURIComponent("Session expired. Please log in again.")}`,
+      `${url.origin}/telemetry-dashboard/login?error=${encodeURIComponent("Session expired. Please log in again.")}`,
       302
     );
   }
-  if (url.pathname.replace(/\/+$/, "") === "/panel/settings/users") {
+  if (url.pathname.replace(/\/+$/, "") === "/telemetry-dashboard/settings/users") {
     return await handleHexUsersApi(request, env2);
   }
   let settings = await getOrInitSettings(env2);
   let flashMessage;
   if (url.searchParams.get("setup") === "success") {
-    flashMessage = { type: "success", text: "Welcome to HEX Panel! Administrator password configured successfully. \u2728" };
+    flashMessage = { type: "success", text: "Welcome to the Telemetry Dashboard! Administrator password configured successfully. \u2728" };
   }
   let initialTab = "overview";
   const pathname = url.pathname;
@@ -4209,7 +4209,7 @@ async function handlePanel(request, env2) {
     initialTab = TAB_ROUTES[lastSegment];
   }
   if (request.method === "POST") {
-    if (pathname === "/panel/settings/password") {
+    if (pathname === "/telemetry-dashboard/settings/password") {
       initialTab = "settings";
       try {
         const formData = await request.formData();
@@ -4235,7 +4235,7 @@ async function handlePanel(request, env2) {
           text: isQuota ? "D1 write failed \u2014 check the database binding" : err.message || "Failed to update password."
         };
       }
-    } else if (pathname === "/panel/settings/nodeshare/regen") {
+    } else if (pathname === "/telemetry-dashboard/settings/nodeshare/regen") {
       initialTab = "settings";
       try {
         const d1 = getD1(env2);
@@ -4254,7 +4254,7 @@ async function handlePanel(request, env2) {
           text: isQuota ? "D1 write failed \u2014 check the database binding" : err.message || "Failed to regenerate share token."
         };
       }
-    } else if (pathname === "/panel/settings/protocols") {
+    } else if (pathname === "/telemetry-dashboard/settings/protocols") {
       try {
         const d1 = getD1(env2);
         if (!d1) {
@@ -11256,7 +11256,7 @@ html.mc-pending .nav-icon, html.mc-pending .action-tile-icon, html.mc-pending #p
           return new Response("Asset not found", { status: 404 });
         }
         if (pathname === "/") {
-          return Response.redirect(`${url.origin}/panel/login`, 302);
+          return Response.redirect(`${url.origin}/telemetry-dashboard/login`, 302);
         }
         if (pathname === "/api/health") {
           return handleHealth(request, env2);
@@ -11264,16 +11264,16 @@ html.mc-pending .nav-icon, html.mc-pending .action-tile-icon, html.mc-pending #p
         if (pathname === "/api/proxy-debug") {
           return await handleProxyDebug(request, env2);
         }
-        if (pathname === "/panel/setup") {
+        if (pathname === "/telemetry-dashboard/setup") {
           return await handleSetup(request, env2);
         }
-        if (pathname === "/panel/login") {
+        if (pathname === "/telemetry-dashboard/login") {
           return await handleLogin(request, env2);
         }
-        if (pathname === "/panel/logout") {
+        if (pathname === "/telemetry-dashboard/logout") {
           return handleLogout(request);
         }
-        if (pathname === "/panel" || pathname.startsWith("/panel/settings")) {
+        if (pathname === "/telemetry-dashboard" || pathname.startsWith("/telemetry-dashboard/settings")) {
           return await handlePanel(request, env2);
         }
         if (pathname.startsWith("/sub/")) {
